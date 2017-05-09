@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 public enum  SPermissions
 {
 
+    SURVIVAL_ACCESS("Survival.access"),
+
     SURVIVAL_BYPASS_CHAT("Survival.bypass.chat"),
     SURVIVAL_BYPASS_PLACE("Survival.bypass.place"),
     SURVIVAL_BYPASS_BREAK("Survival.bypass.break"),

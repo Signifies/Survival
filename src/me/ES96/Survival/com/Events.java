@@ -33,37 +33,82 @@ public class Events extends SUtils implements Listener
     @EventHandler
     public void place(BlockPlaceEvent event)
     {
-
+        if(lock && !(SPermissions.SURVIVAL_BYPASS_PLACE.checkPermission(event.getPlayer())))
+        {
+            event.setCancelled(true);
+        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
+        {
+            event.setCancelled(false);
+        }
     }
 
     @EventHandler
     public void breaking(BlockBreakEvent event)
     {
-
+        if(lock && !(SPermissions.SURVIVAL_BYPASS_BREAK.checkPermission(event.getPlayer())))
+        {
+            event.setCancelled(true);
+        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
+        {
+            event.setCancelled(false);
+        }
     }
 
     @EventHandler
     public void drop(PlayerDropItemEvent event)
     {
-
+        if(lock && !(SPermissions.SURVIVAL_BYPASS_DROP.checkPermission(event.getPlayer())))
+        {
+            event.setCancelled(true);
+        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
+        {
+            event.setCancelled(false);
+        }
     }
 
     @EventHandler
     public void onpickup(PlayerPickupItemEvent event)
     {
-
+        if(lock && !(SPermissions.SURVIVAL_BYPASS_PICKUP.checkPermission(event.getPlayer())))
+        {
+            event.setCancelled(true);
+        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
+        {
+            event.setCancelled(false);
+        }
     }
 
     @EventHandler
     public void interact(PlayerInteractEvent event)
     {
-
+        if(lock && !(SPermissions.SURVIVAL_BYPASS_INTERACT.checkPermission(event.getPlayer())))
+        {
+            event.setCancelled(true);
+        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
+        {
+            event.setCancelled(false);
+        }
     }
 
     @EventHandler
     public void join(PlayerJoinEvent event)
     {
         Player p = event.getPlayer();
+
+        /*
+
+        if (!SPermissions.SURVIVAL_ACCESS.checkPermission(p))
+        {
+            p.setPlayerListName("&7Guest> &f"+p.getName());
+        }else if(p.hasPermission("Survival.member"))
+        {
+            p.setPlayerListName("&a&l"+p.getName());
+        }else if(p.hasPermission("Survival.admin"))
+        {
+
+        }
+
+        */
 
         event.setJoinMessage(null);
         String format = instance.getConfig().getString("Messages.join");

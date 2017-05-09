@@ -1,0 +1,139 @@
+name: Survival
+main: me.ES96.Survival.com
+version: 0.0.2
+description: Survival server plugin
+author: SendCoffee
+website: https://github.com/ES359/Survival
+
+
+permissions:
+
+  Survival.*:
+    description: Gives access completely to Survival plugin.
+    children:
+      Survival.set.*: true
+      Survival.command.*: true
+      Survival.bypass.*: true
+      Survival.mode.*: true
+      Survival.gamemodes.*: true
+
+  Survival.set.*:
+    description: Access to set flag.
+    children:
+      Survival.set.Survival: true
+      Survival.set.break: true
+      Survival.set.place: true
+      Survival.set.interact: true
+      Survival.set.drop: true
+      Survival.set.pickup: true
+      Survival.warp.set: true
+      Survival.set.chat: true
+      Survival.set.tnt: true
+      Survival.mode.set: true
+  Survival.mod:
+    description: Given to moderators...
+    children:
+      Survival.tp: true
+      Survival.tphere: true
+      Survival.tptoggle: true
+      Survival.vanish: true
+      Survival.mode.*: true
+      Survival.world.kick: true
+      Survival.chat.clear: true
+      Survival.whitelist.notify: true
+      Survival.chat.clearothers: true
+
+
+  Survival.member:
+    description: Given to trusted memebers on the server.
+    children:
+      Survival.mode.survival: true
+      Survival.mode.adventure: true
+      Survival.chat: true
+      Survival.chat.clearself: true
+      Survival.warp.list: true
+      Survival.ci: true
+      Survival.access: true
+      Survival.guest: true
+
+  Survival.guest:
+    description: Usually given to guest users on Survival server...
+    children:
+      Survival.spawn: true
+      Survival.warp: true
+      Survival.heal: true
+      Survival.message: true
+      Survival.help: true
+      Survival.mode.set: true
+      Survival.chat: true
+      Survival.list: true
+
+  Survival.mode.*:
+    description: Access to all mode changing permissions
+    children:
+      Survival.mode.set: true
+      Survival.toggle: true
+      Survival.toggle.Survivalmode: true
+      Survival.mode.set.others: true
+      Survival.mode.survival: true
+      Survival.mode.creative: true
+      Survival.mode.adventure: true
+      Survival.mode.spectator: true
+      Survival.users: true
+
+  Survival.gamemodes.*:
+    description:
+    children:
+      Survival.mode.set.others: true
+      Survival.mode.survival: true
+      Survival.mode.survival: true
+      Survival.mode.adventure: true
+      Survival.mode.spectator: true
+
+  Survival.command.*:
+    description: Access to Survival commands.
+    children:
+      Survival.set: true
+      Survival.tp: true
+      Survival.tphere: true
+      Survival.tptoggle: true
+      Survival.warp: true
+      Survival.warp.list: true
+      Survival.warp.delete: true
+      Survival.world.kick: true
+      Survival.setspawn: true
+      Survival.delspawn: true
+      Survival.spawn: true
+      Survival.whitelist.notify: true
+      Survival.whitelist: true
+      Survival.staffchat: true
+      Survival.heal: true
+      Survival.help: true
+      Survival.chat: true
+      Survival.chat.clearself: true
+      Survival.chat.clear: true
+      Survival.reload: true
+      Survival.toggle.Survivalmode: true
+      Survival.toggle: true
+      Survival.message: true
+      Survival.mode.set: true
+      Survival.mode.set.others: true
+      Survival.ci: true
+      Survival.users: true
+      Survival.item: true
+  survival.bypass:
+    description: Access to bypass permissions.
+    children:
+      Survival.bypass.chat: true
+      Survival.bypass.place: true
+      Survival.bypass.break: true
+      Survival.bypass.interact: true
+      Survival.bypass.drop: true
+      Survival.bypass.pickup: true
+      Survival.bypass.toggle: true
+  Survival.spawn:
+    description: Main command to return to spawn.
+    default: true
+  Survival.help:
+    description: Main command for help
+    default: true
