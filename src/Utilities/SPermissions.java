@@ -12,16 +12,16 @@ import org.bukkit.entity.Player;
 public enum  SPermissions
 {
 
-    BUILD_BYPASS_CHAT("Build.bypass.chat"),
-    BUILD_BYPASS_PLACE("Build.bypass.place"),
-    BUILD_BYPASS_BREAK("Build.bypass.break"),
-    BUILD_BYPASS_INTERACT("Build.bypass.interact"),
-    BUILD_BYPASS_DROP("Build.bypass.drop"),
-    BUILD_BYPASS_PICKUP("Build.bypass.pickup"),
-    BUILD_BYPASS_TPTOGGLE("Build.bypass.toggle"),
-    BUILD_BYPASS_STATUS("Build.status"),
-    BUILD_MANGEMENT("Build.manger"),
-
+    SURVIVAL_BYPASS_CHAT("Survival.bypass.chat"),
+    SURVIVAL_BYPASS_PLACE("Survival.bypass.place"),
+    SURVIVAL_BYPASS_BREAK("Survival.bypass.break"),
+    SURVIVAL_BYPASS_INTERACT("Survival.bypass.interact"),
+    SURVIVAL_BYPASS_DROP("Survival.bypass.drop"),
+    SURVIVAL_BYPASS_PICKUP("Survival.bypass.pickup"),
+    SURVIVAL_BYPASS_TPTOGGLE("Survival.bypass.toggle"),
+    SURVIVAL_BYPASS_STATUS("Survival.status"),
+    SURVIVAL_MANGEMENT("Survival.manger"),
+    SURVIVAL_COMMAND_WHITELIST_NOTIFY("Survival.whitelist.notify"),
     PLUGIN_DONATOR_2 ("plugin.donator.2");
 
 

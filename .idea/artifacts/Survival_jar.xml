@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="Survival:jar">
-    <output-path>$USER_HOME$/Desktop/ESAS-S/plugins</output-path>
+    <output-path>$USER_HOME$/Documents/Dev/Spigot Development/Completed Builds/Survival</output-path>
     <root id="archive" name="Survival.jar">
       <element id="module-output" name="Survival" />
     </root>
