@@ -116,7 +116,7 @@ public class Events extends SUtils implements Listener
         format = format.replace("{display_name}",p.getDisplayName());
         format = format.replace("{uuid}",p.getUniqueId().toString());
         Bukkit.getServer().broadcastMessage(color(format));
-        List<String> motd = instance.getConfig().getStringList("Build.MOTD.motd");
+        List<String> motd = instance.getConfig().getStringList("MOTD.motd");
         sendText(motd,p);
 
 //        data = new Data(new File("plugins/Build/PlayerData/" + p.getUniqueId() + ".json"),p);
@@ -145,6 +145,53 @@ public class Events extends SUtils implements Listener
 
 
     }
+
+    @EventHandler
+    public void chat(AsyncPlayerChatEvent event)
+    {
+        Player p = event.getPlayer();
+
+
+        boolean chat = instance.getConfig().getBoolean("Chat.Enabled");
+        boolean perm = SPermissions.SURVIVAL_BYPASS_CHAT.checkPermission(p);
+
+
+        if(lock && !(perm))
+        {
+            event.setCancelled(true);
+        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
+        {
+            event.setCancelled(false);
+        }else if(perm)
+        {
+            event.setCancelled(false);
+        }else
+        {
+            event.setCancelled(true);
+            p.sendMessage(color(instance.getConfig().getString("Chat.chat-disabled")));
+            return;
+        }
+
+        event.getPlayer().setDisplayName(instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".name-color"));
+
+        if(!instance.getConfig().getBoolean("Chat.custom-chat.Enabled")) return;
+
+        String location =  color("&7X:&a"+p.getLocation().getBlockX() +" &7Y&a:" +p.getLocation().getBlockY() + " &7Z&a:" + p.getLocation().getBlockZ() +"&r" );
+        String format = instance.getConfig().getString("chat.custom-chat.Format");
+        format = format.replace("%name%", p.getName());
+        format = format.replace("%msg%", event.getMessage());
+        format = format.replace("%world%", p.getWorld().getName());
+        format = format.replace("%UUID%", p.getUniqueId().toString());
+        format = format.replace("%location%",location);
+        format = format.replace("%chatcolor%", instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".chat-color"));
+//                format = format.replaceAll("%IP%", "" + player.getAddress());
+
+        //TODO: Add vault to get prefix from PermissionsEX...
+
+        event.setFormat(color(format));
+
+    }
+
 
     public boolean checkWhitelist()
     {
@@ -184,5 +231,4 @@ public class Events extends SUtils implements Listener
             }
         }
     }
-
 }

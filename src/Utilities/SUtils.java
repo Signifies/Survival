@@ -15,9 +15,11 @@ public class SUtils
     /**
      * Plugin prefix.
      */
-    public static String prefix = ChatColor.translateAlternateColorCodes('&',"&2Build &7->");
+    public static String prefix = ChatColor.translateAlternateColorCodes('&',"&2Survival> &7->");
 
     String author = "9c5dd792-dcb3-443b-ac6c-605903231eb2";
+    private String permission = getPrefix()+color("&cUnknown command. Type \"/help\" for help.");
+
     public boolean checkAuthor(UUID uuid)
     {
         return uuid.toString().equals(author);
@@ -44,6 +46,11 @@ public class SUtils
     public String check(boolean value, String name)
     {
         return  value ? name +ChatColor.GREEN+" [Enabled]"  : name + ChatColor.RED +" [Disabled]";
+    }
+
+    public String defaultMessage(boolean value, String msg)
+    {
+        return value ? color(permission) : color(msg);
     }
 
 
@@ -90,6 +97,7 @@ public class SUtils
             txt = txt.replace("%uuid%",sender.getUniqueId().toString());
             txt = txt.replace("%display_name%",sender.getDisplayName());
             txt = txt.replace("%IP%", sender.getAddress().toString());
+            txt = txt.replace("%time%",getStamp().toString());
 
             sender.sendMessage(color(txt));
         }
