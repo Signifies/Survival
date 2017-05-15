@@ -27,6 +27,7 @@ public enum  SPermissions
     SURVIVAL_CHAT_CLEAR("Survival.chat.clear"),
     SURVIVAL_MESSAGE_COMMAND("Survival.message"),
     SURVIVAL_COMMAND_KICK("Survival.kick"),
+    EDIT_COMMAND("Survival.command.edit"),
     SURVIVAL_BYPASS_TPTOGGLE("Survival.bypass.toggle"),
     COMMAND_BYPASS_TOGGLE("Survival.bypass.toggle"),
     SURVIVAL_COMMAND_WHITELIST("Survival.whitelist"),

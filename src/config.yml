@@ -10,7 +10,7 @@ perm-message:
 #
 # Server Message of The Day. For list ping and in-game
 MOTD:
-  server-list: ""
+  server-list: "&a&lSurvival &2&lServer &a&l&k|||"
   motd:
   - "&7     ----- &a&lSurvival Server &7-----"
   - "&bWelcome back, &f%player%&b!"
@@ -38,13 +38,13 @@ Chat:
   no-permission: "&cYou don't have permission to speak here. &4/msg only."
   custom-chat:
     Enabled: true
-    Format: "&0[&8%world%&0] %chatcolor%&7%name% &6&l> &7%msg%"
+    Format: "&0[&8%world%&0] &7%name% &6&l> &7%msg%"
 #
 #
 list:
   messages: "&cError: No staff members online. &b&o.-."
   format:
-  - "&a---------- &4Dev Server &a----------"
+  - "&a---------- &2Survival &aServer &a----------"
   - "&7Online:&a %online_players% %max_players%"
   - "&cStaff online: &a%staff%"
   - "&bCurrent Time: &f%time%"

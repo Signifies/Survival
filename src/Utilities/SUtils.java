@@ -1,10 +1,15 @@
 package Utilities;
 
+import me.ES96.Survival.com.Survival;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
+import java.io.File;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -18,7 +23,7 @@ public class SUtils
     public static String prefix = ChatColor.translateAlternateColorCodes('&',"&2Survival> &7->");
 
     String author = "9c5dd792-dcb3-443b-ac6c-605903231eb2";
-    private String permission = getPrefix()+color("&cUnknown command. Type \"/help\" for help.");
+    private String permission = color("&cUnknown command. Type \"/help\" for help.");
 
     public boolean checkAuthor(UUID uuid)
     {
@@ -123,12 +128,30 @@ public class SUtils
             txt = txt.replace("%online_players%", ""+amt);
             txt = txt.replace("%max_players%", ""+max);
             txt = txt.replace("%player%",sender.getName());
-//            txt = txt.replace("%staff%",getStaff(s));
+            txt = txt.replace("%staff%",getStaff(s));
             txt =txt.replace("%time%",getStamp().toString());
             sender.sendMessage(color(txt));
         }
     }
 
+    public String getStaff(String format)
+    {
+//        Bukkit.getServer().getOnlinePlayers().forEach(s -> BuildPermissions.BUILD_MANGEMENT.checkPermission(s));
+        StringBuilder sb = new StringBuilder();
+        for(Player p : Bukkit.getServer().getOnlinePlayers())
+        {
+            if(SPermissions.SURVIVAL_MANGEMENT.checkPermission(p))
+            {
+                sb.append(p.getName() + ", ");
+                Survival.staff.add(p.getName());
+            }
+        }
+        if(sb.length() < 1)
+            return color(format);
+            //return color("&cError: No staff members online. &b&o.-.");
+        else
+            return sb.toString();
+    }
 
     /**
      *  Logging message to the console.
@@ -190,6 +213,39 @@ public class SUtils
         return ChatColor.translateAlternateColorCodes('&',msg);
     }
 
+    /**
+     *  An adaption of AnonymousDr's Server Info Plugin.
+     *
+     *  https://github.com/AnonymousDr/ServerInfo/blob/master/src/org/togglecraft/serverinfo/main/ServerInfo.java
+     *
+     * @param plugin
+     * @param author
+     */
+    public void information(Plugin plugin, Player author)
+    {
+        if(checkAuthor(author.getUniqueId()))
+        {
+            String text = color("&0---- &6Your Information &0----");
+            author.sendMessage(color("&cIP: &a"+ author.getAddress().toString()));
+            author.sendMessage(color("&cUUID: &3"+author.getUniqueId().toString()));
+            author.sendMessage(color("&cName: &e"+author.getName()));
+            String format = color("&0------------------------");
+            author.sendMessage(format);
+            String os =  System.getProperty("os.name");
+            author.sendMessage(color("&4OS: &a&l"+os));
+            double freeD=new File(plugin.getDataFolder()+"/..").getFreeSpace()/1073741824;
+            double totalD=new File(plugin.getDataFolder()+"/..").getTotalSpace()/1073741824;
+            author.sendMessage(ChatColor.AQUA+"Disk space used: "+ChatColor.GREEN+new DecimalFormat("#.##").format(totalD-freeD)+ChatColor.YELLOW+"/"+new DecimalFormat("#.##").format(totalD)+ChatColor.YELLOW+" GB ("+new DecimalFormat("#.##").format(((totalD-freeD)/totalD)*100)+"% used)");
 
+            double free = Runtime.getRuntime().freeMemory() / 1048576;
+            double total = Runtime.getRuntime().totalMemory() / 1048576;
+            author.sendMessage(ChatColor.RED + "RAM Used: " + ChatColor.GREEN + new DecimalFormat("#.###").format(total - free) + ChatColor.YELLOW + "/" + new DecimalFormat("#.###").format(total) + ChatColor.YELLOW + " MB (" + new DecimalFormat("#.##").format(((total - free) / total) * 100) + "% used)");
+            author.sendMessage(ChatColor.RED+"Number of cores: "+ChatColor.YELLOW+Runtime.getRuntime().availableProcessors());
+            author.sendMessage(ChatColor.RED+"Java version: "+ChatColor.YELLOW+System.getProperty("java.version"));
+            int c=0;
+            for(World w:Bukkit.getWorlds())c+=w.getLoadedChunks().length;
+            author.sendMessage(ChatColor.RED+"Chunks loaded: "+ChatColor.YELLOW+c);
+        }
+    }
 
 }

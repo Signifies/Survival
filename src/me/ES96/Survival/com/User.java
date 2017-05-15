@@ -19,12 +19,8 @@ public class User extends SUtils
 
     public void writeUser(Player p)
     {
-       if(instance.getPerms().getPermissions().getConfigurationSection("User-data").contains(p.getUniqueId().toString()))
-       {
-           log("&4Player exists already!");
-       }else
-       {
-           instance.getPerms().getPermissions().set("User-data."+p.getUniqueId(),p.getUniqueId());
+
+           instance.getPerms().getPermissions().set("User-data.",p.getUniqueId());
            instance.getPerms().getPermissions().set("User-data."+p.getUniqueId()+ ".uuid", p.getUniqueId());
            instance.getPerms().getPermissions().set("User-data."+p.getUniqueId()+ ".name", p.getName());
            instance.getPerms().getPermissions().set("User-data."+p.getUniqueId()+ ".rank", "GUEST");
@@ -36,7 +32,7 @@ public class User extends SUtils
            instance.getPerms().savePermissions();
            log(Debug.pluginLog() + "&a&lThe world, &n" + p.getWorld().getName() + "&a&l has been added.");
 //           p.sendMessage(color( "&a&lThe player, &n" + p.getName() + "&a&l has been added."));
-       }
+
 
     }
 

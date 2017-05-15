@@ -19,8 +19,11 @@ public class Survival extends JavaPlugin {
 
     private PermissionsConfig perms = new PermissionsConfig(this);
     private ArrayList<UUID> notify = new ArrayList<>();
+    public static ArrayList<String> staff = new ArrayList<>();
+    private User user = new User(this);
     public static boolean DEBUG = true;
     public PluginDescriptionFile pdfFile = this.getDescription();
+
 
     public void onEnable() {
         configuration();
@@ -74,5 +77,14 @@ public class Survival extends JavaPlugin {
     public String getMessage()
     {
         return this.getConfig().getString("perm-message.format");
+    }
+    public boolean lock()
+    {
+        return getConfig().getBoolean("server-lock");
+    }
+
+    public User getUser()
+    {
+        return user;
     }
 }

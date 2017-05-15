@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.ServerListPingEvent;
 
 import java.io.File;
 import java.util.List;
@@ -27,13 +28,12 @@ public class Events extends SUtils implements Listener
         instance = main;
     }
 
-    boolean lock = instance.getConfig().getBoolean("server-lock");
 
 
     @EventHandler
     public void place(BlockPlaceEvent event)
     {
-        if(lock && !(SPermissions.SURVIVAL_BYPASS_PLACE.checkPermission(event.getPlayer())))
+        if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_PLACE.checkPermission(event.getPlayer())))
         {
             event.setCancelled(true);
         }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
@@ -45,7 +45,7 @@ public class Events extends SUtils implements Listener
     @EventHandler
     public void breaking(BlockBreakEvent event)
     {
-        if(lock && !(SPermissions.SURVIVAL_BYPASS_BREAK.checkPermission(event.getPlayer())))
+        if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_BREAK.checkPermission(event.getPlayer())))
         {
             event.setCancelled(true);
         }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
@@ -57,7 +57,7 @@ public class Events extends SUtils implements Listener
     @EventHandler
     public void drop(PlayerDropItemEvent event)
     {
-        if(lock && !(SPermissions.SURVIVAL_BYPASS_DROP.checkPermission(event.getPlayer())))
+        if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_DROP.checkPermission(event.getPlayer())))
         {
             event.setCancelled(true);
         }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
@@ -69,7 +69,7 @@ public class Events extends SUtils implements Listener
     @EventHandler
     public void onpickup(PlayerPickupItemEvent event)
     {
-        if(lock && !(SPermissions.SURVIVAL_BYPASS_PICKUP.checkPermission(event.getPlayer())))
+        if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_PICKUP.checkPermission(event.getPlayer())))
         {
             event.setCancelled(true);
         }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
@@ -81,7 +81,7 @@ public class Events extends SUtils implements Listener
     @EventHandler
     public void interact(PlayerInteractEvent event)
     {
-        if(lock && !(SPermissions.SURVIVAL_BYPASS_INTERACT.checkPermission(event.getPlayer())))
+        if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_INTERACT.checkPermission(event.getPlayer())))
         {
             event.setCancelled(true);
         }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
@@ -110,8 +110,7 @@ public class Events extends SUtils implements Listener
 
         */
 
-        User user = new User(instance);
-        user.writeUser(p);
+
         event.setJoinMessage(null);
         String format = instance.getConfig().getString("Messages.join");
         format = format.replace("{player}", p.getName());
@@ -125,6 +124,7 @@ public class Events extends SUtils implements Listener
         Debug.log(Debug.pluginLog() + "&6Creating file for " + p.getName());
         log(color("%prefix% &7Creating data for player, &6" + p.getName()));
 
+//       instance.getUser().writeUser(p);
 
 //        if(Debug.checkAuth(p.getUniqueId()))
 //            p.getInventory().addItem(createHelpBook());
@@ -158,10 +158,10 @@ public class Events extends SUtils implements Listener
         boolean perm = SPermissions.SURVIVAL_BYPASS_CHAT.checkPermission(p);
 
 
-        if(lock && !(perm))
+        if(instance.lock() && !(perm))
         {
             event.setCancelled(true);
-        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
+        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()) || SPermissions.SURVIVAL_CHAT.checkPermission(p))
         {
             event.setCancelled(false);
         }else if(perm)
@@ -174,18 +174,18 @@ public class Events extends SUtils implements Listener
             return;
         }
 
-        event.getPlayer().setDisplayName(instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".name-color"));
+//        event.getPlayer().setDisplayName(instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".name-color"));
 
         if(!instance.getConfig().getBoolean("Chat.custom-chat.Enabled")) return;
 
         String location =  color("&7X:&a"+p.getLocation().getBlockX() +" &7Y&a:" +p.getLocation().getBlockY() + " &7Z&a:" + p.getLocation().getBlockZ() +"&r" );
-        String format = instance.getConfig().getString("chat.custom-chat.Format");
+        String format = instance.getConfig().getString("Chat.custom-chat.Format");
         format = format.replace("%name%", p.getName());
         format = format.replace("%msg%", event.getMessage());
         format = format.replace("%world%", p.getWorld().getName());
         format = format.replace("%UUID%", p.getUniqueId().toString());
         format = format.replace("%location%",location);
-        format = format.replace("%chatcolor%", instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".chat-color"));
+//        format = format.replace("%chatcolor%", instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".chat-color"));
 //                format = format.replaceAll("%IP%", "" + player.getAddress());
 
         //TODO: Add vault to get prefix from PermissionsEX...
@@ -194,6 +194,20 @@ public class Events extends SUtils implements Listener
 
     }
 
+    @EventHandler
+    public void serverPing(ServerListPingEvent event)
+    {
+        Debug.log(Debug.pluginLog() + "&9Server Ping event called.");
+        String pingmessage = color(instance.getConfig().getString("MOTD.server-list"));
+
+        pingmessage = pingmessage.replaceAll("&", "\u00A7");
+        pingmessage = pingmessage.replace("#nl", "\n");
+//        pingmessage = pingmessage.replace("%staff%",getStaff(main));
+//        pingmessage = pingmessage.replace("%users%",getUsers());
+//        pingmessage = pingmessage.replace("%time%",getStamp().toString());
+        event.setMotd(pingmessage);
+        //uitl.logToConsole("TEST: " +event.getAddress());
+    }
 
     public boolean checkWhitelist()
     {
