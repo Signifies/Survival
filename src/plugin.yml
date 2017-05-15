@@ -1,10 +1,38 @@
 name: Survival
 main: me.ES96.Survival.com
-version: 0.0.2
+version: 0.1.2
 description: Survival server plugin
 author: SendCoffee
 website: https://github.com/ES359/Survival
 
+commands:
+  chat:
+    description: Chat management command.
+    aliases: [talk,c,shutup]
+  kick:
+    description: Command that kicks a player from the server.
+    aliases: [bye, goodbye, fuckoff]
+  list:
+    description: Command that lists the players/staff members on the server.
+    aliases: [who, slist, users]
+  message:
+    description: Command to private message between players.
+    aliases: [yell, msg, hi, hello]
+  tp:
+    description: Command to teleport to player.
+    aliases: [stp, teleport]
+  tphere:
+    description: Command to teleport player to you.
+    aliases: [teleporthere, comehere, call]
+  whitelist:
+    description: Whitelist command to manage server whitelist.
+    aliases: [wl]
+  cmddisable:
+    description: Administration command for CMD-Disable
+    aliases: [cmd, cdisable, cd]
+  edit:
+    description:
+    aliases: [ed,modify,set]
 
 permissions:
 
@@ -30,6 +58,7 @@ permissions:
       Survival.set.chat: true
       Survival.set.tnt: true
       Survival.mode.set: true
+
   Survival.mod:
     description: Given to moderators...
     children:
@@ -47,11 +76,8 @@ permissions:
   Survival.member:
     description: Given to trusted memebers on the server.
     children:
-      Survival.mode.survival: true
-      Survival.mode.adventure: true
       Survival.chat: true
       Survival.chat.clearself: true
-      Survival.warp.list: true
       Survival.ci: true
       Survival.access: true
       Survival.guest: true
@@ -60,35 +86,10 @@ permissions:
     description: Usually given to guest users on Survival server...
     children:
       Survival.spawn: true
-      Survival.warp: true
-      Survival.heal: true
       Survival.message: true
       Survival.help: true
-      Survival.mode.set: true
       Survival.chat: true
       Survival.list: true
-
-  Survival.mode.*:
-    description: Access to all mode changing permissions
-    children:
-      Survival.mode.set: true
-      Survival.toggle: true
-      Survival.toggle.Survivalmode: true
-      Survival.mode.set.others: true
-      Survival.mode.survival: true
-      Survival.mode.creative: true
-      Survival.mode.adventure: true
-      Survival.mode.spectator: true
-      Survival.users: true
-
-  Survival.gamemodes.*:
-    description:
-    children:
-      Survival.mode.set.others: true
-      Survival.mode.survival: true
-      Survival.mode.survival: true
-      Survival.mode.adventure: true
-      Survival.mode.spectator: true
 
   Survival.command.*:
     description: Access to Survival commands.
@@ -97,23 +98,14 @@ permissions:
       Survival.tp: true
       Survival.tphere: true
       Survival.tptoggle: true
-      Survival.warp: true
-      Survival.warp.list: true
-      Survival.warp.delete: true
-      Survival.world.kick: true
-      Survival.setspawn: true
-      Survival.delspawn: true
-      Survival.spawn: true
       Survival.whitelist.notify: true
       Survival.whitelist: true
       Survival.staffchat: true
-      Survival.heal: true
       Survival.help: true
       Survival.chat: true
       Survival.chat.clearself: true
       Survival.chat.clear: true
       Survival.reload: true
-      Survival.toggle.Survivalmode: true
       Survival.toggle: true
       Survival.message: true
       Survival.mode.set: true

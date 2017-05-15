@@ -18,6 +18,8 @@ MOTD:
   - "&7> Use /help"
 #
 #
+kick-format: "&f%player% &chas been kicked. &cReason: &f%msg%"
+#
 broadcast:
   format: ""
   sound: false
@@ -60,6 +62,7 @@ Whitelist:
   whitelist-alert: "%prefix% &7The player, &a%playername% is attempting to join the server."
 #
 #
+use-default-msg: true
 restriction-msg: "&6This has been disabled."
 #
 blocked-cmds:

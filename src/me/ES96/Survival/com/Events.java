@@ -110,6 +110,8 @@ public class Events extends SUtils implements Listener
 
         */
 
+        User user = new User(instance);
+        user.writeUser(p);
         event.setJoinMessage(null);
         String format = instance.getConfig().getString("Messages.join");
         format = format.replace("{player}", p.getName());

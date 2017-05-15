@@ -1,9 +1,9 @@
 package Utilities;
 
-import me.ES96.Survival.com.Survival;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
+
 import org.bukkit.entity.Player;
 
 /**
@@ -20,8 +20,20 @@ public enum  SPermissions
     SURVIVAL_BYPASS_INTERACT("Survival.bypass.interact"),
     SURVIVAL_BYPASS_DROP("Survival.bypass.drop"),
     SURVIVAL_BYPASS_PICKUP("Survival.bypass.pickup"),
+    COMMAND_BYPASS("Survival.bypass"),
+    SURVIVAL_CHAT_CLEARSELF("Survival.chat.clearself"),
+    SURVIVAL_CHAT_CLEAR_OTHERS("Survival.chat.clearothers"),
+    SURVIVAL_CHAT("Survival.chat"),
+    SURVIVAL_CHAT_CLEAR("Survival.chat.clear"),
+    SURVIVAL_MESSAGE_COMMAND("Survival.message"),
+    SURVIVAL_COMMAND_KICK("Survival.kick"),
     SURVIVAL_BYPASS_TPTOGGLE("Survival.bypass.toggle"),
+    COMMAND_BYPASS_TOGGLE("Survival.bypass.toggle"),
+    SURVIVAL_COMMAND_WHITELIST("Survival.whitelist"),
     SURVIVAL_BYPASS_STATUS("Survival.status"),
+    SURVIVAL_COMMAND_TP("Survival.tp"),
+    SURVIVAL_COMMAND_TPHERE("Survival.tphere"),
+    SURVIVAL_MANAGEMENT_LIST("Survival.list"),
     SURVIVAL_MANGEMENT("Survival.manger"),
     SURVIVAL_COMMAND_WHITELIST_NOTIFY("Survival.whitelist.notify"),
     PLUGIN_DONATOR_2 ("plugin.donator.2");
