@@ -14,6 +14,7 @@ MOTD:
   motd:
   - "&7     ----- &a&lSurvival Server &7-----"
   - "&bWelcome back, &f%player%&b!"
+  - "&7> &fThere are &a%online_players% &fout of &3%max_players% &fonline&3!"
   - "&7The time and date is: &a%time%"
   - "&7> Use /help"
 #
@@ -28,8 +29,8 @@ broadcast:
 #
 messaging:
   format:
-    from: "&9[&7Msg&9]&r &6From: %sender% &f%msg%"
-    to: "&9[&7Msg&9]&r &6To: %target% &f%msg%"
+    from: "&6[&4PM&6]&r &6From: &a%sender% &f%msg%"
+    to: "&6[&4PM&6]&r &6To: &c%target% &f%msg%"
 #
 Chat:
   Enabled: true
@@ -38,14 +39,14 @@ Chat:
   no-permission: "&cYou don't have permission to speak here. &4/msg only."
   custom-chat:
     Enabled: true
-    Format: "&0[&8%world%&0] &7%name% &6&l> &7%msg%"
+    Format: "&0[&8%world%&0] &7%name% &a&l> &7%msg%"
 #
 #
 list:
   messages: "&cError: No staff members online. &b&o.-."
   format:
   - "&a---------- &2Survival &aServer &a----------"
-  - "&7Online:&a %online_players% %max_players%"
+  - "&7Online:&a %online_players%/%max_players%"
   - "&cStaff online: &a%staff%"
   - "&bCurrent Time: &f%time%"
   - "&7------------------------------"
@@ -53,13 +54,13 @@ list:
 #
 #
 Messages:
-  join: "&8Join&a> &7{player}"
+  join: "&bJoin&a> &7{player}"
   quit: "&8Quit&a> &7{player}"
 
 # # # # # # # # # # # #
 Whitelist:
   kick-message: "&9Whitelist&8> &c&oConnection failed: &8&l--&a&l>\n&6&lUUID: &7(&a%uuid%&7)\n&6&lUsername: &c&n%playername%"
-  whitelist-alert: "%prefix% &7The player, &a%playername% is attempting to join the server."
+  whitelist-alert: "&aWhitelist&7> &7The player, &a%playername% is attempting to join the server."
 #
 #
 use-default-msg: true

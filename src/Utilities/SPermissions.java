@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public enum  SPermissions
 {
 
-    SURVIVAL_ACCESS("Survival.accesst"),
+    SURVIVAL_ACCESS("Survival.access"),
 
     SURVIVAL_BYPASS_CHAT("Survival.bypass.chat"),
     SURVIVAL_BYPASS_PLACE("Survival.bypass.place"),
@@ -36,6 +36,13 @@ public enum  SPermissions
     SURVIVAL_COMMAND_TPHERE("Survival.tphere"),
     SURVIVAL_MANAGEMENT_LIST("Survival.list"),
     SURVIVAL_MANGEMENT("Survival.manger"),
+
+    SURVIVAL_CHAT_LOCATION("Survival.chat.location"),
+    SURVIVAL_CHAT_EXP("Survival.chat.exp"),
+    SURVIVAL_CHAT_COLOR("Survival.chat.color"),
+    SURVIVAL_CHAT_WORLD("Survival.chat.world"),
+    SURVIVAL_CHAT_ITEM("Survival.chat.item"),
+
     SURVIVAL_COMMAND_WHITELIST_NOTIFY("Survival.whitelist.notify"),
     PLUGIN_DONATOR_2 ("plugin.donator.2");
 

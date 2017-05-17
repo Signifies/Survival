@@ -44,6 +44,15 @@ permissions:
       Survival.bypass.*: true
       Survival.mode.*: true
       Survival.gamemodes.*: true
+      Survival.chat.format: true
+
+  Survival.chat.format:
+    description: Gives all access to chat formatting.
+    children:
+      Survival.chat.world: true
+      Survival.chat.color: true
+      Survival.chat.location: true
+      Survival.chat.exp: true
 
   Survival.set.*:
     description: Access to set flag.

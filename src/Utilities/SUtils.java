@@ -96,14 +96,18 @@ public class SUtils
 
     public void sendText(List<String> text, Player sender)
     {
+        int amt = Bukkit.getServer().getOnlinePlayers().size();
+        int max = Bukkit.getServer().getMaxPlayers();
+
         for(String txt: text)
         {
+            txt = txt.replace("%online_players%", ""+amt);
+            txt = txt.replace("%max_players%", ""+max);
             txt = txt.replace("%player%",sender.getName());
             txt = txt.replace("%uuid%",sender.getUniqueId().toString());
             txt = txt.replace("%display_name%",sender.getDisplayName());
             txt = txt.replace("%IP%", sender.getAddress().toString());
             txt = txt.replace("%time%",getStamp().toString());
-
             sender.sendMessage(color(txt));
         }
     }
@@ -120,7 +124,6 @@ public class SUtils
     public void sendText(List<String> text, CommandSender sender, String s)
     {
         int amt = Bukkit.getServer().getOnlinePlayers().size();
-
         int max = Bukkit.getServer().getMaxPlayers();
 
         for(String txt: text)
