@@ -3,6 +3,12 @@
 # Server lock down?
 lock-down: false
 #
+Log:
+  address:
+    join-ip: true
+    ping-ip: false
+    format:
+
 # Do we use default permission message or custom ?
 perm-message:
   default: true
@@ -13,7 +19,7 @@ MOTD:
   server-list: "&a&lSurvival &2&lServer &a&l&k|||"
   motd:
   - "&7     ----- &a&lSurvival Server &7-----"
-  - "&bWelcome back, &f%player%&b!"
+  - "&bWelcome, &f%player%&b!"
   - "&7> &fThere are &a%online_players% &fout of &3%max_players% &fonline&3!"
   - "&7The time and date is: &a%time%"
   - "&7> Use /help"
@@ -40,6 +46,14 @@ Chat:
   custom-chat:
     Enabled: true
     Format: "&0[&8%world%&0] &7%name% &a&l> &7%msg%"
+  functions:
+    world:
+      use-text: true
+    location:
+      use-text: true
+    exp:
+      use-text: true
+
 #
 #
 list:

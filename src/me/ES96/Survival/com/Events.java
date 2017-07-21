@@ -281,6 +281,9 @@ public class Events extends SUtils implements Listener
     @EventHandler
     public void serverPing(ServerListPingEvent event)
     {
+
+
+
         Debug.log(Debug.pluginLog() + "&9Server Ping event called.");
         String pingmessage = color(instance.getConfig().getString("MOTD.server-list"));
 
