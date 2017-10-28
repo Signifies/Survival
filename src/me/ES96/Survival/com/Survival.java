@@ -3,6 +3,7 @@ package me.ES96.Survival.com;
 import Utilities.Debug;
 import Utilities.PermissionsConfig;
 import Utilities.SPermissions;
+import Utilities.UUIDConfig;
 import commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
@@ -23,10 +24,11 @@ public class Survival extends JavaPlugin {
     private User user = new User(this);
     public static boolean DEBUG = true;
     public PluginDescriptionFile pdfFile = this.getDescription();
-
+    private UUIDConfig uuidConfig = new UUIDConfig(this);
 
     public void onEnable() {
         configuration();
+        userData();
         permissions();
         commands();
         Bukkit.getServer().getPluginManager().registerEvents(new Events(this), this);
@@ -38,6 +40,13 @@ public class Survival extends JavaPlugin {
         Debug.log(Debug.pluginLog() + "Configuration loading...");
         getConfig().options().copyDefaults(true);
         saveConfig();
+    }
+
+    void userData()
+    {
+        Debug.log(Debug.pluginLog() + "User Data loading...");
+        uuidConfig.saveDefaultUUIDConfig();
+        uuidConfig.saveUUIDConfig();
     }
 
     void permissions() {
@@ -81,6 +90,11 @@ public class Survival extends JavaPlugin {
     public boolean lock()
     {
         return getConfig().getBoolean("server-lock");
+    }
+
+    public UUIDConfig getUserData()
+    {
+        return uuidConfig;
     }
 
     public User getUser()

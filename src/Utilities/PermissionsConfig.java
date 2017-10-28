@@ -10,7 +10,7 @@ import java.util.logging.Level;
 public class PermissionsConfig {
     private FileConfiguration Permissions = null;
     private File PermissionsFile = null;
-    private static final String fileName = "Config.yml";
+    private static final String fileName = "Permissions.yml";
 
     private Survival main;
 

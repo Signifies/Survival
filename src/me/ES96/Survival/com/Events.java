@@ -1,6 +1,7 @@
 package me.ES96.Survival.com;
 
 import Utilities.Debug;
+import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
 import net.md_5.bungee.api.ChatColor;
@@ -113,6 +114,11 @@ public class Events extends SUtils implements Listener
     public void join(PlayerJoinEvent event)
     {
         Player p = event.getPlayer();
+
+//    TODO later    instance.getUser().getRank(p);
+
+        instance.getUser().setRank(p, Rank.GUEST); //We can also get the chat prefix once configured...
+
 
         /*
 

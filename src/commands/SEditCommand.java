@@ -1,5 +1,6 @@
 package commands;
 
+import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
 import me.ES96.Survival.com.Survival;
@@ -21,9 +22,6 @@ public class SEditCommand extends SUtils implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[])
     {
-
-
-
         if(cmd.getName().equalsIgnoreCase("edit"))
         {
             if(!SPermissions.EDIT_COMMAND.checkPermission(sender))
@@ -45,9 +43,52 @@ public class SEditCommand extends SUtils implements CommandExecutor {
 
                                Player p = (Player)sender;
 
-                               information(instance,p);
-                               break;
+                               if(instance.getUser().isPermissible(p,Rank.SMOD))
+                               {
+                                   information(instance,p);
+                               }else
+                               {
+                                   p.sendMessage(color("&7Sorry, you do not have the required permission of &9"+ Rank.ADMIN.toString()+"&7."));
+                               }
                            }
+                            break;
+
+                        case "rank":
+                            if(sender instanceof Player)
+                            {
+
+                                Player p = (Player)sender;
+                                p.sendMessage(color("&7You currently hold the rank of: &a"+instance.getUser().getRank(p).toString()));
+
+                            }
+                            break;
+
+                        case "hasrank":
+                            if(sender instanceof Player)
+                            {
+                                Player p =(Player)sender;
+                                if(instance.getUser().isPermissible(p, Rank.MEMBER))
+                                {
+                                    p.sendMessage(color("&aCongratulations! You are a Member!"));
+                                }else
+                                {
+                                    p.sendMessage(color("&7Sorry! You haven't been promoted yet!"));
+                                }
+                            }
+                            break;
+                        case "inheritance":
+                            if(sender instanceof Player)
+                            {
+                                Player p = (Player)sender;
+                                if(instance.getUser().isPermissible(p,Rank.BUILDER))
+                                {
+                                    p.sendMessage(color("&cCan inherit permissions??? I think??"));
+                                }else
+                                {
+                                    p.sendMessage(color("&7Sorry, you didn't inherit anything!"));
+                                }
+                            }
+                            break;
 
                         default:
                             sender.sendMessage(color("&cYou've used an incorrect argument. :/ "));
