@@ -3,7 +3,10 @@ package me.ES96.Survival.com;
 import Utilities.Debug;
 import Utilities.Rank;
 import Utilities.SUtils;
+import com.sun.org.apache.xerces.internal.xs.StringList;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 /**
  * Created by Evan on 5/12/2017.
@@ -11,14 +14,23 @@ import org.bukkit.entity.Player;
 public class User extends SUtils
 {
 
+    /**
+     "Great snippit can u maybe do one on how to add perms to these ranks?"
 
-    private Survival instance;
+     That could be done with a simple HashMap of the Rank and List of permissions for that rank.
+     Simply get the user rank then check if the list contains the permission you're checking for.
+     Alternatively, you can incorporate a numbered system where each rank has a corresponding number of power. Then each thing you want to allow or disallow has a minimum power required.
+     */
+
+    private static Survival instance;
+    private static HashMap<Rank,StringList> permissions = new HashMap<>();
 
     public User(Survival var)
     {
         instance = var;
     }
 
+    //TODO Check static compatibility with userMethods.
     //TODO Just incase Permission System fails we can implement an option to use regular permissions.
 
     //TODO VERY IMPORTANT. SOME PLUGINS RELY ON SENDER ONLY WHICH MEANS NO UUID!!!
@@ -26,7 +38,7 @@ public class User extends SUtils
     //TODO SOFTWARE from Survival. That way 2 methods different paremeters one being player other being sender
     //TODO Getting UUID from the players name in the stored file.
 
-    public void setRank(Player p, Rank rank) //TODO ? Do we check for first time join? Or no user in file if none is found set rank default??
+    public static void setRank(Player p, Rank rank) //TODO ? Do we check for first time join? Or no user in file if none is found set rank default??
     {
         Debug.log(Debug.pluginLog()+"Adding the user to file. Data: "+ p.getUniqueId() +" with the rank: " + rank.toString());
         instance.getUserData().getUUIDConfig().set("Users."+p.getUniqueId() +".RANK", rank.toString());
@@ -34,7 +46,7 @@ public class User extends SUtils
     }
 
     //Might need this one to be static to access in Rank.java...
-    public Rank getRank(Player player)
+    public static Rank getRank(Player player)
     {
         String data = instance.getUserData().getUUIDConfig().getString("Users." +player.getUniqueId() +".RANK");
         String statement = (data == null ? Rank.GUEST : Rank.valueOf(data)).toString();  //TODO removed once I'm satisfied that there are no issues/bugs and logic is correct.
@@ -43,25 +55,7 @@ public class User extends SUtils
 
     }
 
-    //This will be incorperated into our isAllowed method to check for permissions.
-
-     /*
-        if(getRank(player).getPower() >= Rank.ADMIN.getPower())
-        {
-         example of logic used in this method.
-        }
-        */
-
-     void t(Player s, Rank r)
-     {
-         if(getRank(s).getPriority() >= Rank.ADMIN.getPriority())
-         {
-             //run this command.
-             //fuck yes. This is perfect...
-         }
-     }
-
-    public boolean hasRank(Player p, Rank hasRank) //TODO Check to see if hasRank should be first.
+    public static boolean hasRank(Player p, Rank hasRank) //TODO Check to see if hasRank should be first.
     {
         Debug.log(Debug.pluginLog()+"Logging Data for #hasRank() method.");
         Rank currentRank = getRank(p);
@@ -74,17 +68,6 @@ public class User extends SUtils
         //Meaning we might have to still implement our second version
     }
 
-
-
-    public boolean canInherit(Player p, Rank inheritable)
-    {
-        Debug.log(Debug.pluginLog()+"Logging the #canInherit() method.");
-
-        boolean statement = (hasRank(p,inheritable) && (getRank(p).compareTo(inheritable) >= inheritable.getPriority())); //TODO removed once I'm satisfied that there are no issues/bugs and logic is correct.
-        Debug.log(Debug.pluginLog()+"Final value: " +statement);
-
-        return statement;
-    }
 
     /**
      * Logic for permissions check
@@ -99,20 +82,13 @@ public class User extends SUtils
         {
         return (getRank(p).compareTo(hasRank) >= hasRank.getPriority()); //Idea 2, needs testing.
         }
-     *
-     *
-     *
-     *
-     *
-     */
-
     /**
      *
      * @param p Player. Checking the users request and their authentication.
      * @param required Comparing the users request to see if they have proper Authentication.
      * @return
      */
-    public boolean isPermissible(Player p, Rank required)
+    public static boolean isPermissible(Player p, Rank required)
     {
         boolean test = hasRank(p,required);  //TODO removed once I'm satisfied that there are no issues/bugs and logic is correct.
         String result = test ? p.getName()+" has permission for this function!" : p.getName()+" does not have permission for this function!";
@@ -121,6 +97,28 @@ public class User extends SUtils
         return test;
     }
 
+
+    /**
+     * Method to check for individual permissions! 
+     * @param rank
+     * @param perm
+     * @return
+     */
+    public static boolean isPermissible(Rank rank, StringList perm)
+    {
+        permissions.put(rank,perm);
+
+        boolean result;
+        if(permissions.containsKey(perm))
+        {
+            result = true;
+        }else
+        {
+            result = false;
+        }
+
+        return result;
+    }
 
     public void writeUser(Player p)
     {

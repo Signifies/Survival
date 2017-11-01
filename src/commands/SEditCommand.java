@@ -4,6 +4,7 @@ import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
 import me.ES96.Survival.com.Survival;
+import me.ES96.Survival.com.User;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -43,7 +44,7 @@ public class SEditCommand extends SUtils implements CommandExecutor {
 
                                Player p = (Player)sender;
 
-                               if(instance.getUser().isPermissible(p,Rank.SMOD))
+                               if(User.isPermissible(p,Rank.ADMIN))
                                {
                                    information(instance,p);
                                }else
@@ -58,7 +59,7 @@ public class SEditCommand extends SUtils implements CommandExecutor {
                             {
 
                                 Player p = (Player)sender;
-                                p.sendMessage(color("&7You currently hold the rank of: &a"+instance.getUser().getRank(p).toString()));
+                                p.sendMessage(color("&7You currently hold the rank of: &a"+User.getRank(p).toString()));
 
                             }
                             break;
@@ -67,7 +68,7 @@ public class SEditCommand extends SUtils implements CommandExecutor {
                             if(sender instanceof Player)
                             {
                                 Player p =(Player)sender;
-                                if(instance.getUser().isPermissible(p, Rank.MEMBER))
+                                if(User.isPermissible(p, Rank.MEMBER))
                                 {
                                     p.sendMessage(color("&aCongratulations! You are a Member!"));
                                 }else
@@ -80,7 +81,7 @@ public class SEditCommand extends SUtils implements CommandExecutor {
                             if(sender instanceof Player)
                             {
                                 Player p = (Player)sender;
-                                if(instance.getUser().isPermissible(p,Rank.BUILDER))
+                                if(User.isPermissible(p,Rank.BUILDER))
                                 {
                                     p.sendMessage(color("&cCan inherit permissions??? I think??"));
                                 }else

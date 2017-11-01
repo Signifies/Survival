@@ -25,6 +25,7 @@ public enum Rank
     private final int priority;
     private final String prefix;
 
+
     Rank(String prefix,int priority) //Instatiated inside main class as a new object with config placeholders added.
     {
 //        this.id = id;
@@ -37,33 +38,24 @@ public enum Rank
     {
         return prefix != null;
     }
-
     public int getPriority()
     {
         return priority;
     }
-
     public String getPrefix()
     {
         return prefix;
     }
-
     //TODO??? Do we want to access User user? instead? We'll try both methods.
     //Add player and we can make this logic right here??
     public boolean isPermissible(Rank required)
     {
         return priority <= required.priority;
     }
-
     public void setRank(Player p, Rank rank)
     {
         //Config instance??? probably move this to different class such as usermanagement....
     }
-
-//    public boolean hasPermission(Rank required)
-//    {
-//        return rank.isPermissible(required);
-//    }
 
 }
  

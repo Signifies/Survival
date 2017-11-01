@@ -1,9 +1,6 @@
 package me.ES96.Survival.com;
 
-import Utilities.Debug;
-import Utilities.PermissionsConfig;
-import Utilities.SPermissions;
-import Utilities.UUIDConfig;
+import Utilities.*;
 import commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
