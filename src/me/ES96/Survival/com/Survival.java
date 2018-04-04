@@ -15,15 +15,16 @@ import java.util.UUID;
  */
 public class Survival extends JavaPlugin {
 
-    private PermissionsConfig perms = new PermissionsConfig(this);
+    private static PermissionsConfig perms;
     private ArrayList<UUID> notify = new ArrayList<>();
     public static ArrayList<String> staff = new ArrayList<>();
     private User user = new User(this);
     public static boolean DEBUG = true;
     public PluginDescriptionFile pdfFile = this.getDescription();
     private UUIDConfig uuidConfig = new UUIDConfig(this);
-
+    private RankManagement rankManagement = new RankManagement(this);
     public void onEnable() {
+        perms = new PermissionsConfig(this);
         configuration();
         userData();
         permissions();
@@ -39,8 +40,7 @@ public class Survival extends JavaPlugin {
         saveConfig();
     }
 
-    void userData()
-    {
+    void userData() {
         Debug.log(Debug.pluginLog() + "User Data loading...");
         uuidConfig.saveDefaultUUIDConfig();
         uuidConfig.saveUUIDConfig();
@@ -62,13 +62,14 @@ public class Survival extends JavaPlugin {
         registerCmd("tp", new STPCommand(this));
         registerCmd("tphere", new STPhereCommand(this));
         registerCmd("edit", new SEditCommand(this));
+        registerCmd("rank",new RankCommand(this));
     }
 
     private void registerCmd(String command, CommandExecutor commandExecutor) {
         Bukkit.getServer().getPluginCommand(command).setExecutor(commandExecutor);
     }
 
-    public PermissionsConfig getPerms() {
+    public static PermissionsConfig getPerms() {
         return perms;
     }
 
@@ -80,22 +81,24 @@ public class Survival extends JavaPlugin {
         return this.getConfig().getBoolean("perm-message.default");
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return this.getConfig().getString("perm-message.format");
     }
-    public boolean lock()
-    {
+
+    public boolean lock() {
         return getConfig().getBoolean("server-lock");
     }
 
-    public UUIDConfig getUserData()
-    {
+    public UUIDConfig getUserData() {
         return uuidConfig;
     }
 
-    public User getUser()
-    {
+    public User getUser() {
         return user;
+    }
+
+    public RankManagement getRankManagement()
+    {
+        return rankManagement;
     }
 }

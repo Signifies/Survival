@@ -33,6 +33,9 @@ commands:
   edit:
     description:
     aliases: [ed,modify,set]
+  rank:
+    description:
+    aliases: [srank]
 
 permissions:
 

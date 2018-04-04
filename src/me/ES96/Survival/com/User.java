@@ -7,6 +7,7 @@ import com.sun.org.apache.xerces.internal.xs.StringList;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Created by Evan on 5/12/2017.
@@ -38,12 +39,21 @@ public class User extends SUtils
     //TODO SOFTWARE from Survival. That way 2 methods different paremeters one being player other being sender
     //TODO Getting UUID from the players name in the stored file.
 
-    public static void setRank(Player p, Rank rank) //TODO ? Do we check for first time join? Or no user in file if none is found set rank default??
+    public static void setRank(Player p, Rank rank) //TODO This will be checked on login or perhaps join...
     {
-        Debug.log(Debug.pluginLog()+"Adding the user to file. Data: "+ p.getUniqueId() +" with the rank: " + rank.toString());
-        instance.getUserData().getUUIDConfig().set("Users."+p.getUniqueId() +".RANK", rank.toString());
-        instance.getUserData().saveUUIDConfig();
+
+        if (instance.getUserData().getUUIDConfig().getConfigurationSection("Users").contains(p.getUniqueId().toString())) {
+            Debug.log("User already found! Skipping RankSet!");
+        } else {
+            Debug.log(Debug.pluginLog() + "Adding the user to file. Data: " + p.getUniqueId() + " with the rank: " + rank.toString());
+            instance.getUserData().getUUIDConfig().set("Users." + p.getUniqueId() + ".RANK", rank.toString());
+            instance.getUserData().getUUIDConfig().set("Users."+p.getUniqueId().toString()+ ".PREFIX","");
+            //UserData set Tptoggle value
+            instance.getUserData().saveUUIDConfig();
+
+        }
     }
+
 
     //Might need this one to be static to access in Rank.java...
     public static Rank getRank(Player player)
@@ -52,7 +62,7 @@ public class User extends SUtils
         String statement = (data == null ? Rank.GUEST : Rank.valueOf(data)).toString();  //TODO removed once I'm satisfied that there are no issues/bugs and logic is correct.
         Debug.log(Debug.pluginLog()+"Logging logic data for #getRank() method. Data: "+ statement);
         return (data == null ? Rank.GUEST : Rank.valueOf(data));
-
+        //return Rank.valueOf(data);
     }
 
     public static boolean hasRank(Player p, Rank hasRank) //TODO Check to see if hasRank should be first.
@@ -99,7 +109,7 @@ public class User extends SUtils
 
 
     /**
-     * Method to check for individual permissions! 
+     *
      * @param rank
      * @param perm
      * @return
@@ -137,6 +147,28 @@ public class User extends SUtils
 
 
     }
+    public static boolean hasCustomPrefix(UUID uuid)
+    {
+    String prefix= instance.getUserData().getUUIDConfig().getString("Users."+ uuid.toString()+".PREFIX");
+
+    return prefix != null;
+    }
+
+    public static String getRankPrefix(Player player)
+    {
+        Rank rank = User.getRank(player);
+        String prefix = rank.getPrefix();
+        return rank.hasPrefix() ? prefix : "";
+    }
+
+    public static String getCustomPrefix(Player player)
+    {
+        String prefix= instance.getUserData().getUUIDConfig().getString("Users."+ player.getUniqueId().toString()+".PREFIX");
+        return prefix;
+    }
+
+
+
 
     public User getData()
     {

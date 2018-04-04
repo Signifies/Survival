@@ -2,38 +2,36 @@ package Utilities;
 
 import me.ES96.Survival.com.Survival;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public enum Rank
 {
     //Possible idea, use for loop to instatiate multiple enums from a string list???
     //List of parameters....
     //TODO: PREFIX, Permissions (StringList & can this work via config??), Priority for Inheritance...
 
-
-    GUEST(ChatColor.translateAlternateColorCodes('&',""),0),
-    MEMBER(ChatColor.translateAlternateColorCodes('&',""),1),
-    BUILDER(ChatColor.translateAlternateColorCodes('&',""),2),
-    MOD(ChatColor.translateAlternateColorCodes('&',""),3),
-    SMOD(ChatColor.translateAlternateColorCodes('&',""),4),
-    ADMIN(ChatColor.translateAlternateColorCodes('&',""),5),
-    DEV(ChatColor.translateAlternateColorCodes('&',""),6);
+    /**
+     * <>mainClass.</>.getPerms().getPermissions().getString("");
+     * Get Perms is the Rank Data file where basic information about a rank is stored.
+     * Might change this over to use custom message/color system.
+     */
+    GUEST(Survival.getPerms().getPermissions().getString("Ranks.GUEST.prefix"),1),
+    MEMBER(Survival.getPerms().getPermissions().getString("Ranks.MEMBER.prefix"),2),
+    GAMER(Survival.getPerms().getPermissions().getString("Ranks.GAMER.prefix"),3),
+    BUILDER(Survival.getPerms().getPermissions().getString("Ranks.BUILDER.prefix"),4),
+    MOD(Survival.getPerms().getPermissions().getString("Ranks.MOD.prefix"),5),
+    SMOD(Survival.getPerms().getPermissions().getString("Ranks.SMOD.prefix"),6),
+    ADMIN(Survival.getPerms().getPermissions().getString("Ranks.ADMIN.prefix"),7),
+    DEV(Survival.getPerms().getPermissions().getString("Ranks.DEV.prefix"),8),
+    OWNER(Survival.getPerms().getPermissions().getString("Ranks.OWNER.prefix"),9);
 
     private final int priority;
     private final String prefix;
 
-
-    Rank(String prefix,int priority) //Instatiated inside main class as a new object with config placeholders added.
+    Rank(String prefix,int priority)
     {
 //        this.id = id;
         this.prefix = prefix;
         this.priority = priority;
-
     }
-
     public boolean hasPrefix()
     {
         return prefix != null;
@@ -48,14 +46,6 @@ public enum Rank
     }
     //TODO??? Do we want to access User user? instead? We'll try both methods.
     //Add player and we can make this logic right here??
-    public boolean isPermissible(Rank required)
-    {
-        return priority <= required.priority;
-    }
-    public void setRank(Player p, Rank rank)
-    {
-        //Config instance??? probably move this to different class such as usermanagement....
-    }
 
 }
  

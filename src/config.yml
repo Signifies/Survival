@@ -45,7 +45,7 @@ Chat:
   no-permission: "&cYou don't have permission to speak here. &4/msg only."
   custom-chat:
     Enabled: true
-    Format: "&0[&8%world%&0] &7%name% &a&l> &7%msg%"
+    Format: "&c{RANK} &r[{PREFIX}] &7%name% &a&l> &7%msg%"
   functions:
     world:
       use-text: true

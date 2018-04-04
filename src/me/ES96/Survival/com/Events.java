@@ -117,7 +117,8 @@ public class Events extends SUtils implements Listener
 
 //    TODO later    instance.getUser().getRank(p);
 
-        instance.getUser().setRank(p, Rank.GUEST); //We can also get the chat prefix once configured...
+       // instance.getUser().setRank(p, Rank.GUEST); //We can also get the chat prefix once configured...
+        User.setRank(p,Rank.GUEST);
 
 
         /*
@@ -172,6 +173,8 @@ public class Events extends SUtils implements Listener
 
 
     }
+
+
 
     @EventHandler
     public void chat(AsyncPlayerChatEvent event)
@@ -275,6 +278,8 @@ public class Events extends SUtils implements Listener
         format = format.replace("%world%", p.getWorld().getName());
         format = format.replace("%UUID%", p.getUniqueId().toString());
         format = format.replace("%location%",location);
+        format = format.replace("{RANK}",User.getRankPrefix(p));
+        format = format.replace("{PREFIX}",User.getCustomPrefix(p));
 //        format = format.replace("%chatcolor%", instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".chat-color"));
 //                format = format.replaceAll("%IP%", "" + player.getAddress());
 

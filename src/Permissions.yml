@@ -1,0 +1,19 @@
+Ranks:
+  GUEST:
+    prefix: "[G]"
+  MEMBER:
+    prefix: "MEMBER"
+  GAMER:
+    prefix: "GAMER"
+  BUILDER:
+    prefix: "BUILDER"
+  MOD:
+    prefix: "MOD"
+  SMOD:
+    prefix: "SMOD"
+  ADMIN:
+    prefix: "ADMIN"
+  DEV:
+    prefix: "DEV"
+  OWNER:
+    prefix: "OWNER"
