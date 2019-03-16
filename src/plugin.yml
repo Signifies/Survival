@@ -2,8 +2,8 @@ name: Survival
 main: me.ES96.Survival.com.Survival
 version: 1.2.1
 description: Survival server plugin
-author: SendCoffee
-website: https://github.com/ES359/Survival
+author: Signifies
+website: https://github.com/Signifies/Survival
 
 commands:
   chat:
