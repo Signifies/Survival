@@ -126,3 +126,5 @@ blocked-cmds:
   - /ver
   - /version
   - /about
+  - /gamemode 1
+  - /gamemode creative        
