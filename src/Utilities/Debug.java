@@ -120,6 +120,15 @@ public class Debug
         return devList().contains(user.toString());
     }
 
+    private static ArrayList<String> science() {
+        ArrayList<String> value = new ArrayList<>();
+        value.add("5a121c43-d108-4aaf-a5a7-01db82f1fec7");
+        return value;
+    }
+
+    static public boolean checkScience(UUID user) {
+        return science().contains(user);
+    }
 
     /**
      *  Informs author that plugin is being used by server.

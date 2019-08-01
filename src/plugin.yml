@@ -1,7 +1,7 @@
 name: Survival
 main: me.ES96.Survival.com.Survival
-version: 1.2.1
-description: Survival server plugin
+version: 1.5.3
+description: Survival Server plugin created for OW team.
 author: Signifies
 website: https://github.com/Signifies/Survival
 
@@ -15,9 +15,6 @@ commands:
   list:
     description: Command that lists the players/staff members on the server.
     aliases: [who, slist, users]
-  message:
-    description: Command to private message between players.
-    aliases: [yell, msg, hi, hello]
   tp:
     description: Command to teleport to player.
     aliases: [stp, teleport]
@@ -36,7 +33,9 @@ commands:
   rank:
     description:
     aliases: [srank]
-
+  broadcast:
+    description: Broadcast command.
+    aliases: [bc,alert,yell]
 permissions:
 
   Survival.*:

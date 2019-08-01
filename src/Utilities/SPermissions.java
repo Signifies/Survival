@@ -33,11 +33,18 @@ public enum  SPermissions
     SURVIVAL_COMMAND_WHITELIST("Survival.whitelist"),
     SURVIVAL_BYPASS_STATUS("Survival.status"),
     SURVIVAL_COMMAND_TP("Survival.tp"),
+    RELOAD("survivial.reload"),
     SURVIVAL_COMMAND_TPHERE("Survival.tphere"),
     SURVIVAL_MANAGEMENT_LIST("Survival.list"),
     SURVIVAL_MANGEMENT("Survival.manger"),
-
-    SURVIVAL_CHAT_LOCATION("Survival.chat.location"),
+    BYPASS_STATUS("Survival.bypass")
+,    SURVIVAL_CHAT_LOCATION("Survival.chat.location"),
+    CHAT_CLEARSELF("utils.chat.clearself"),
+    CHAT_CLEAR_OTHERS("utils.chat.clearothers"),
+    CHAT("utils.chat"),
+    CHAT_CLEAR("utils.chat.clear"),
+    CHAT_DISABLE("utils.chat.disable"),
+    CHAT_ENABLE("utils.chat.enable"),
     SURVIVAL_CHAT_EXP("Survival.chat.exp"),
     SURVIVAL_CHAT_COLOR("Survival.chat.color"),
     SURVIVAL_CHAT_WORLD("Survival.chat.world"),
@@ -55,13 +62,13 @@ public enum  SPermissions
     }
 
     public boolean checkPermission(Player p){
-        System.out.println(check(p));
+        //System.out.println(check(p));
         return p.hasPermission(getKey());
     }
 
     public boolean checkPermission(CommandSender sender)
     {
-        System.out.println(check(sender));
+        //System.out.println(check(sender));
         return sender.hasPermission(getKey());
     }
 

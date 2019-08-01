@@ -14,11 +14,7 @@ public enum Rank
      * Might change this over to use custom message/color system.
      */
     GUEST(Survival.getPerms().getPermissions().getString("Ranks.GUEST.prefix"),1),
-    MEMBER(Survival.getPerms().getPermissions().getString("Ranks.MEMBER.prefix"),2),
-    GAMER(Survival.getPerms().getPermissions().getString("Ranks.GAMER.prefix"),3),
-    BUILDER(Survival.getPerms().getPermissions().getString("Ranks.BUILDER.prefix"),4),
     MOD(Survival.getPerms().getPermissions().getString("Ranks.MOD.prefix"),5),
-    SMOD(Survival.getPerms().getPermissions().getString("Ranks.SMOD.prefix"),6),
     ADMIN(Survival.getPerms().getPermissions().getString("Ranks.ADMIN.prefix"),7),
     DEV(Survival.getPerms().getPermissions().getString("Ranks.DEV.prefix"),8),
     OWNER(Survival.getPerms().getPermissions().getString("Ranks.OWNER.prefix"),9);

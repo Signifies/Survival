@@ -5,9 +5,6 @@ import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +14,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerListPingEvent;
 
-import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,13 +36,10 @@ public class Events extends SUtils implements Listener
     {
         if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_PLACE.checkPermission(event.getPlayer())))
         {
+            event.getPlayer().sendMessage(color("&cServer is in lockdown."));
             event.setCancelled(true);
-        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
-        {
+        }else {
             event.setCancelled(false);
-        }else
-        {
-            event.setCancelled(true);
         }
     }
 
@@ -55,13 +48,10 @@ public class Events extends SUtils implements Listener
     {
         if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_BREAK.checkPermission(event.getPlayer())))
         {
+            event.getPlayer().sendMessage(color("&cServer is in lockdown."));
             event.setCancelled(true);
-        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
-        {
+        }else {
             event.setCancelled(false);
-        }else
-        {
-            event.setCancelled(true);
         }
     }
 
@@ -70,28 +60,10 @@ public class Events extends SUtils implements Listener
     {
         if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_DROP.checkPermission(event.getPlayer())))
         {
+            event.getPlayer().sendMessage(color("&cServer is in lockdown."));
             event.setCancelled(true);
-        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
-        {
+        }else {
             event.setCancelled(false);
-        }else
-        {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onpickup(PlayerPickupItemEvent event)
-    {
-        if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_PICKUP.checkPermission(event.getPlayer())))
-        {
-            event.setCancelled(true);
-        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
-        {
-            event.setCancelled(false);
-        }else
-        {
-            event.setCancelled(true);
         }
     }
 
@@ -100,13 +72,10 @@ public class Events extends SUtils implements Listener
     {
         if(instance.lock() && !(SPermissions.SURVIVAL_BYPASS_INTERACT.checkPermission(event.getPlayer())))
         {
+            event.getPlayer().sendMessage(color("&cServer is in lockdown."));
             event.setCancelled(true);
-        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()))
-        {
+        }else {
             event.setCancelled(false);
-        }else
-        {
-            event.setCancelled(true);
         }
     }
 
@@ -119,7 +88,6 @@ public class Events extends SUtils implements Listener
 
        // instance.getUser().setRank(p, Rank.GUEST); //We can also get the chat prefix once configured...
         User.setRank(p,Rank.GUEST);
-
 
         /*
 
@@ -176,6 +144,7 @@ public class Events extends SUtils implements Listener
 
 
 
+
     @EventHandler
     public void chat(AsyncPlayerChatEvent event)
     {
@@ -183,29 +152,29 @@ public class Events extends SUtils implements Listener
 
 
         boolean chat = instance.getConfig().getBoolean("Chat.Enabled");
-        boolean perm = SPermissions.SURVIVAL_BYPASS_CHAT.checkPermission(p);
+        //boolean perm = SPermissions.SURVIVAL_BYPASS_CHAT.checkPermission(p);
 
 
-        if(instance.lock() && !(perm))
-        {
-            event.setCancelled(true);
-        }else if(SPermissions.SURVIVAL_ACCESS.checkPermission(event.getPlayer()) || SPermissions.SURVIVAL_CHAT.checkPermission(p))
-        {
-            event.setCancelled(false);
-        }else if(perm)
-        {
-            event.setCancelled(false);
-        }else
+        if(instance.lock() || !(chat))
         {
             event.setCancelled(true);
             p.sendMessage(color(instance.getConfig().getString("Chat.chat-disabled")));
             return;
+        }else
+        {
+            event.setCancelled(false);
         }
 
 //        event.getPlayer().setDisplayName(instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".name-color"));
 
 
         String message = event.getMessage();
+        List<String> list = instance.getConfig().getStringList("blocked-words");
+
+        if(list.contains(message.toLowerCase().replaceAll("\\s", "").replaceAll("&[a-z0-9]", ""))) {
+            event.setCancelled(true);
+            p.sendMessage(color("&4You're not allowed to use that word."));
+        }
 
         if(message.contains("-help"))
         {
@@ -244,40 +213,35 @@ public class Events extends SUtils implements Listener
             message = message.replace("#loc", location);
         }
 
-        if(SPermissions.SURVIVAL_CHAT_ITEM.checkPermission(p))
-        {
-            if(message.contains("#item"))
-            {
-                message = message.replace("#item", "¯\\_ツ_/¯");
-                TextComponent m = new TextComponent("Mouse over to see "+ p.getName()+"'s item!");
-                m.setColor(ChatColor.AQUA);
 
-                String format = ""+p.getItemInHand().getItemMeta().getDisplayName()+"\n" + p.getItemInHand().getItemMeta().getLore() + "\n"+p.getItemInHand().getItemMeta().getEnchants();
-
-                m.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(format).create()));
-
-                for(Player player : Bukkit.getServer().getOnlinePlayers())
-                {
-                    player.spigot().sendMessage(m);
-                }
-
+            if(User.isPermissible(p, Rank.MOD)) {
+                p.setDisplayName(ChatColor.LIGHT_PURPLE + p.getName() +ChatColor.RESET);
             }
-        }
 
+            if(User.isPermissible(p,Rank.ADMIN)) {
+                p.setDisplayName(ChatColor.RED + p.getName()+ChatColor.RESET);
+            }
 
+            if(User.isPermissible(p,Rank.DEV)) {
+                p.setDisplayName(ChatColor.DARK_GREEN +p.getName()+ChatColor.RESET);
+            }
 
+            if(Debug.checkScience(p.getUniqueId())) {
+                p.setDisplayName(ChatColor.YELLOW + p.getName() +ChatColor.RESET);
+            }
 
         if(!instance.getConfig().getBoolean("Chat.custom-chat.Enabled")) return;
 
 
-
+        //TODO Set administrators color in tab list on join and chat on chat.
 
         String format = instance.getConfig().getString("Chat.custom-chat.Format");
-        format = format.replace("%name%", p.getName());
-        format = format.replace("%msg%", message); //TODO
-        format = format.replace("%world%", p.getWorld().getName());
-        format = format.replace("%UUID%", p.getUniqueId().toString());
-        format = format.replace("%location%",location);
+
+        format = format.replace("{name}", p.getName());
+        format = format.replace("{msg}", message); //TODO
+        format = format.replace("{world}", p.getWorld().getName());
+        format = format.replace("{UUID}", p.getUniqueId().toString());
+        format = format.replace("{location}",location);
         format = format.replace("{RANK}",User.getRankPrefix(p));
         format = format.replace("{PREFIX}",User.getCustomPrefix(p));
 //        format = format.replace("%chatcolor%", instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".chat-color"));
@@ -285,15 +249,13 @@ public class Events extends SUtils implements Listener
 
         //TODO: Add vault to get prefix from PermissionsEX...
 
-        event.setFormat(color(format));
+        event.setFormat(format);//TODO Fix.
 
     }
 
     @EventHandler
     public void serverPing(ServerListPingEvent event)
     {
-
-
 
         Debug.log(Debug.pluginLog() + "&9Server Ping event called.");
         String pingmessage = color(instance.getConfig().getString("MOTD.server-list"));
@@ -315,31 +277,34 @@ public class Events extends SUtils implements Listener
     @EventHandler
     public void onLogin(PlayerLoginEvent event) {
 
-        Debug.log(Debug.pluginLog() + "&aWhitelist event called.");
         Player p = event.getPlayer();
         UUID uuid = p.getUniqueId();
-        String config= instance.getConfig().getString("Whitelist.kick-message");
-        config = config.replace("%playername%",p.getName());
-        config = config.replace("%uuid%",uuid.toString());
-        config = config.replace("#nl", "\n");
-
+        String config = instance.getConfig().getString("Whitelist.kick-message");
+        config = config.replace("{name}", p.getName());
+        config = config.replace("{uuid}", "" + uuid);
+        config = config.replace("\n", "\n");
         String alert = instance.getConfig().getString("Whitelist.whitelist-alert");
-        alert = alert.replace("%playername%",p.getName());
-        alert = alert.replace("%uuid%",uuid.toString());
-        alert = alert.replace("#nl", "\n");
+        alert = alert.replace("{name}", p.getName());
+        alert = alert.replace("{uuid}", "" + uuid);
 
-        if(checkWhitelist()) {
-            if(!p.isWhitelisted()) {
+        String result = instance.getConfig().getBoolean("Maintenance.enabled") ? instance.getConfig().getString("Maintenance.msg") : config;
 
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, color(config));
+        // IF WL = TRUE; THEN DO ALLOWANCE; THEN DO DISALLOWANCE.
+        // IF WL = TRUE; AND P HAS PERM; THEN ALLOW
+
+        if (checkWhitelist()) {
+            /*This logic is important, because we want them to join regardless if they are whitelisted if permission specific control is enabled.*/
+            if (checkWhitelist() && SPermissions.BYPASS_STATUS.checkPermission(p) || (instance.getConfig().getBoolean("Whitelist.use-permission") && p.hasPermission(instance.getConfig().getString("Whitelist.permission")))) {
+                event.setResult(PlayerLoginEvent.Result.ALLOWED);
+            }else if(!p.isWhitelisted()) {
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, org.bukkit.ChatColor.translateAlternateColorCodes('&', result));
                 Bukkit.getServer().getConsoleSender().sendMessage(color(alert));
-                for(Player staff : Bukkit.getServer().getOnlinePlayers()){
-                    if(SPermissions.SURVIVAL_COMMAND_WHITELIST_NOTIFY.checkPermission(staff)) {
-                        if(!p.isWhitelisted()){
-                            staff.sendMessage(color(alert));
-                        }else {
+                for (Player staff : Bukkit.getServer().getOnlinePlayers()) {
+                    if (User.isPermissible(staff, Rank.MOD)) {
+                        if (p.isWhitelisted()) {
                             return;
                         }
+                        staff.sendMessage(color(alert));
                     }
                 }
             }

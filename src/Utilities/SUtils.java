@@ -1,6 +1,7 @@
 package Utilities;
 
 import me.ES96.Survival.com.Survival;
+import me.ES96.Survival.com.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -38,6 +39,9 @@ public class SUtils
         }
     }
 
+    String[] tag = {color("&7GUEST&r"),color("&9MOD&r"),color("&cADMIN&r"),color("&aDEV&r")};
+
+
     /**
      * Gets the set plugin prefix.
      *
@@ -45,7 +49,7 @@ public class SUtils
      */
     public String getPrefix()
     {
-        return this.prefix;
+        return prefix;
     }
 
     public String check(boolean value, String name)
@@ -58,6 +62,30 @@ public class SUtils
         return value ? color(permission) : color(msg);
     }
 
+    public void log(String msg, int priority) {
+        if(Survival.DEBUG || priority > 0) {
+            Bukkit.getServer().getConsoleSender().sendMessage(prefix + color("&f[&4LOG&f]&r &6" + msg));
+        }
+    }
+
+    //TODO our get prefix method will be the replacement value inside our chat API.
+
+    public void enforceWhitelist(CommandSender staff) {
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if(!p.isWhitelisted() && !(User.isPermissible(p,Rank.MOD))) {
+                p.kickPlayer(color("&4[!] Server whitelist has been enforced!"));
+            }
+        }
+        staff.sendMessage(color("&7The whitelist has been &aenforced."));
+    }
+    public void enforceWhitelist(CommandSender staff, String msg) {
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if(!p.isWhitelisted() && !(User.isPermissible(p, Rank.MOD))) {
+                p.kickPlayer(color(msg));
+            }
+        }
+        //TODO Notifications API here.
+    }
 
     public ArrayList<String> commandList()
     {
@@ -93,6 +121,8 @@ public class SUtils
             sender.sendMessage(color(txt));
         }
     }
+
+
 
     public void sendText(List<String> text, Player sender)
     {
@@ -143,7 +173,7 @@ public class SUtils
         StringBuilder sb = new StringBuilder();
         for(Player p : Bukkit.getServer().getOnlinePlayers())
         {
-            if(SPermissions.SURVIVAL_MANGEMENT.checkPermission(p))
+            if(User.isPermissible(p,Rank.MOD))
             {
                 sb.append(p.getName() + ", ");
                 Survival.staff.add(p.getName());
@@ -190,7 +220,7 @@ public class SUtils
                 p.sendMessage("");
             }
         }
-        Bukkit.broadcastMessage(color("&7&lThe chat has been &a&lcleared&7&l."));
+        Bukkit.broadcastMessage(color("&7The chat has been &acleared&7."));
     }
 
 

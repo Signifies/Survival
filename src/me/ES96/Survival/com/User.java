@@ -54,6 +54,13 @@ public class User extends SUtils
         }
     }
 
+    public static void setDesiredRank(Player p, Rank rank) {
+        Debug.log(Debug.pluginLog() + "Adding the user to file. Data: " + p.getUniqueId() + " with the rank: " + rank.toString());
+        instance.getUserData().getUUIDConfig().set("Users." + p.getUniqueId() + ".RANK", rank.toString());
+        instance.getUserData().getUUIDConfig().set("Users."+p.getUniqueId().toString()+ ".PREFIX","");
+        //UserData set Tptoggle value
+        instance.getUserData().saveUUIDConfig();
+    }
 
     //Might need this one to be static to access in Rank.java...
     public static Rank getRank(Player player)
@@ -107,6 +114,13 @@ public class User extends SUtils
         return test;
     }
 
+    public static boolean usePermissionSystem() {
+        return instance.getConfig().getBoolean("Permissions.use-default");
+    }
+
+    public static boolean adminColor(Player p) {
+        return User.getRank(p).getPriority() >= Rank.MOD.getPriority();
+    }
 
     /**
      *

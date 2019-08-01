@@ -19,7 +19,7 @@ public class Survival extends JavaPlugin {
     private ArrayList<UUID> notify = new ArrayList<>();
     public static ArrayList<String> staff = new ArrayList<>();
     private User user = new User(this);
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public PluginDescriptionFile pdfFile = this.getDescription();
     private UUIDConfig uuidConfig = new UUIDConfig(this);
     private RankManagement rankManagement = new RankManagement(this);
@@ -56,13 +56,14 @@ public class Survival extends JavaPlugin {
         registerCmd("cmddisable", new CommandListeners(this));
         registerCmd("list", new SListCommand(this));
         registerCmd("chat", new SChatCommand(this));
-        registerCmd("message", new SMessageCommand(this));
+        //registerCmd("message", new SMessageCommand(this));
         registerCmd("kick", new SKickCommand(this));
         registerCmd("whitelist", new SWhitelistCommand(this));
         registerCmd("tp", new STPCommand(this));
         registerCmd("tphere", new STPhereCommand(this));
         registerCmd("edit", new SEditCommand(this));
         registerCmd("rank",new RankCommand(this));
+        registerCmd("broadcast", new BroadcastCommand(this));
     }
 
     private void registerCmd(String command, CommandExecutor commandExecutor) {

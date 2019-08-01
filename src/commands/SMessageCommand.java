@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 /**
  * Created by Evan on 5/14/2017.
  */
+@Deprecated
 public class SMessageCommand extends SUtils implements CommandExecutor
 {
 
@@ -22,7 +23,16 @@ public class SMessageCommand extends SUtils implements CommandExecutor
         instance = value;
     }
 
-
+/*
+*
+messaging:
+  format:
+    from: "&6[&4PM&6]&r &6From: &a%sender% &f%msg%"
+    to: "&6[&4PM&6]&r &6To: &c%target% &f%msg%"
+#
+*
+*
+* */
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[])
     {

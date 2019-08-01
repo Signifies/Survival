@@ -1,8 +1,10 @@
 package commands;
 
+import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
 import me.ES96.Survival.com.Survival;
+import me.ES96.Survival.com.User;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,13 +29,15 @@ public class SKickCommand extends SUtils implements CommandExecutor
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[])
     {
 
-        if(cmd.getName().equalsIgnoreCase("kick"))
-        {
-            if(!SPermissions.SURVIVAL_COMMAND_KICK.checkPermission(sender))
-            {
-                sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
-            }else
-            {
+        if(sender instanceof Player) {
+            Player p = (Player)sender;
+
+                if(!User.isPermissible(p,Rank.MOD)) {
+                    sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
+                    return false;
+                    }
+                }
+
                 if(args.length < 1)
                 {
                     sender.sendMessage(color("&7You need to add a player..."));
@@ -69,10 +73,6 @@ public class SKickCommand extends SUtils implements CommandExecutor
                         }
                     }
                 }
-            }
-        }
-
         return true;
     }
-
 }

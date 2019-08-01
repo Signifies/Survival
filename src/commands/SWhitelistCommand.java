@@ -1,13 +1,16 @@
 package commands;
 
+import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
 import me.ES96.Survival.com.Survival;
+import me.ES96.Survival.com.User;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * Created by Evan on 5/14/2017.
@@ -23,13 +26,13 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[])
     {
 
-        if(cmd.getName().equalsIgnoreCase("whitelist"))
-        {
-            if(!SPermissions.SURVIVAL_COMMAND_WHITELIST.checkPermission(sender))
-            {
+        if(sender instanceof Player) {
+            Player p =(Player)sender;
+            if(!User.isPermissible(p, Rank.ADMIN)){
                 sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
-            }else
-            {
+                return false;
+            }
+        }
                 if(args.length < 1)
                 {
                     sender.sendMessage(color("&7> &f/whitelist &7<[add] [remove] [clear] [list] [on] [off]>"));
@@ -37,6 +40,29 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
                 {
                     switch (args[0].toLowerCase())
                     {
+
+                        case "maintenance":
+                        case "repair":
+
+                             if(instance.getConfig().getBoolean("Maintenance.enabled")){
+                                //wl logic and message.
+                                instance.getConfig().set("Maintenance.enabled", false);
+                                instance.saveConfig();
+                                Bukkit.getServer().setWhitelist(false);
+                                Bukkit.getServer().reloadWhitelist();
+                                sender.sendMessage(color(""+check(instance.getConfig().getBoolean("Maintenance.enabled"), "server maintenance has been")));
+                                //adminNotifications(sender.getName(), "disabled server maintenance.");
+                            }else {
+                                instance.getConfig().set("Maintenance.enabled", true);
+                                instance.saveConfig();
+                                enforceWhitelist(sender, instance.getConfig().getString("Maintenance.msg"));
+                                Bukkit.getServer().setWhitelist(true);
+                                Bukkit.getServer().reloadWhitelist();
+                                sender.sendMessage(color(""+check(instance.getConfig().getBoolean("Maintenance.enabled"), "server maintenance has been")));
+                                //adminNotifications(sender.getName(), "server maintenance enabled.");
+                            }
+                            break;
+
                         case "list":
 
                             StringBuilder str = new StringBuilder();
@@ -93,6 +119,10 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
                             }
                             break;
 
+                        case "enforce":
+                            enforceWhitelist(sender);
+                            break;
+
                         case "clear":
                         case "ci":
 
@@ -108,10 +138,8 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
                             sender.sendMessage(color("&7/whitelist"));
                     }
                 }
-            }
-        }
-
         return true;
     }
+
 }
 

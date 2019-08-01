@@ -1,14 +1,10 @@
 # Survival configuration file
 #
-# Server lock down?
-lock-down: false
+server-lock: false
 #
-Log:
-  address:
-    join-ip: true
-    ping-ip: false
-    format:
-
+# Don't fucking touch this unless you know what you're doing.
+Permissions:
+  use-default: true
 # Do we use default permission message or custom ?
 perm-message:
   default: true
@@ -16,27 +12,32 @@ perm-message:
 #
 # Server Message of The Day. For list ping and in-game
 MOTD:
-  server-list: "&a&lSurvival &2&lServer &a&l&k|||"
+  server-list: "&a&l<> &cBajr&7Craft &a&l<>"
   motd:
-  - "&7     ----- &a&lSurvival Server &7-----"
-  - "&bWelcome, &f%player%&b!"
-  - "&7> &fThere are &a%online_players% &fout of &3%max_players% &fonline&3!"
-  - "&7The time and date is: &a%time%"
-  - "&7> Use /help"
+  - "&7     ----- &a&l<> &cBajr&7Craft &a&l <> &7-----"
+  - "&bWelcome, &f%player%&b! &a%online_players%/%max_players%"
+  - "&4&nRULES&r: &fDiscord: &bhttps://discord.gg/54H9J2"
+  - "&7This is a &c&nfriendly&r server."
+  - "&7No greifing, trolling, or attacking others."
+  - "&4&nNO&r AFK fish farming until further notice."
 #
 #
 kick-format: "&f%player% &chas been kicked. &cReason: &f%msg%"
 #
-broadcast:
-  format: ""
-  sound: false
-  sounds:
+Broadcast:
+  format: "&f&5Alert&r> {msg}"
+
 #
+# Don't fucking touch the use permission value.
+# Unless you know exactly what you are doing.
+Whitelist:
+  use-permission: false
+  permission: "utils.specific.permission"
+  kick-message: "&9Whitelist&8> &cYou are not whitelisted, &c&n{name}.\n&cContact Miskey on Discord."
+  whitelist-alert: "&6Alert&7&l> &6&l{name}, &7is not Whitelisted!"
+  enforce-kick: "&4Server whitelist was enforced by an Admin!"
+  enforce: "&4{admin}> &7whitelist enforce success!"
 #
-messaging:
-  format:
-    from: "&6[&4PM&6]&r &6From: &a%sender% &f%msg%"
-    to: "&6[&4PM&6]&r &6To: &c%target% &f%msg%"
 #
 Chat:
   Enabled: true
@@ -44,8 +45,8 @@ Chat:
   chat-disabled: "&7The chat has been &asilenced."
   no-permission: "&cYou don't have permission to speak here. &4/msg only."
   custom-chat:
-    Enabled: true
-    Format: "&c{RANK} &r[{PREFIX}] &7%name% &a&l> &7%msg%"
+    Enabled: false
+    Format: "&7{name}> &r%msg%"
   functions:
     world:
       use-text: true
@@ -59,7 +60,7 @@ Chat:
 list:
   messages: "&cError: No staff members online. &b&o.-."
   format:
-  - "&a---------- &2Survival &aServer &a----------"
+  - "&a-------- &a&l<> &cBajr&7Craft &a&l <> &a--------"
   - "&7Online:&a %online_players%/%max_players%"
   - "&cStaff online: &a%staff%"
   - "&bCurrent Time: &f%time%"
@@ -68,13 +69,13 @@ list:
 #
 #
 Messages:
-  join: "&bJoin&a> &7{player}"
-  quit: "&8Quit&a> &7{player}"
+  join: "&8[&a&l+&8] &7{player}"
+  quit: "&8[&4&l-&8] &7{player}"
 
 # # # # # # # # # # # #
 Whitelist:
-  kick-message: "&9Whitelist&8> &c&oConnection failed: &8&l--&a&l>\n&6&lUUID: &7(&a%uuid%&7)\n&6&lUsername: &c&n%playername%"
-  whitelist-alert: "&aWhitelist&7> &7The player, &a%playername% is attempting to join the server."
+  kick-message: "&9Whitelist&8> &7You are not whitelisted, &ahttps://discord.gg/QJgqcts to request access."
+  whitelist-alert: "&aWhitelist&7> &7The player, &a{name} &7is attempting to join the server."
 #
 #
 use-default-msg: true
@@ -128,3 +129,25 @@ blocked-cmds:
   - /about
   - /gamemode 1
   - /gamemode creative        
+#
+blocked-words:
+  - faggot
+  - faggit
+  - nigger
+  - NIGGER
+  - niggerslayer
+  - fag
+  - FAG
+  - KILLNIGGERS
+  - killniggers
+  - NIGGERKIllers
+  - niggerkillers
+  - NlGGER
+  - NiggerHunter
+  - HuntingNiggers
+  - HuntNiggers
+  - KillNiggers
+  - Niggers
+  - niggers
+  - Niggert
+  - Niggernigger
