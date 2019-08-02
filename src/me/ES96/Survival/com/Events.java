@@ -84,7 +84,7 @@ public class Events extends SUtils implements Listener
     {
         Player p = event.getPlayer();
 
-//    TODO later    instance.getUser().getRank(p);
+//    TODO.md later    instance.getUser().getRank(p);
 
        // instance.getUser().setRank(p, Rank.GUEST); //We can also get the chat prefix once configured...
         User.setRank(p,Rank.GUEST);
@@ -155,18 +155,14 @@ public class Events extends SUtils implements Listener
         //boolean perm = SPermissions.SURVIVAL_BYPASS_CHAT.checkPermission(p);
 
 
-        if(instance.lock() || !(chat))
+        if(!(chat) && !User.isPermissible(p, Rank.MOD))
         {
             event.setCancelled(true);
             p.sendMessage(color(instance.getConfig().getString("Chat.chat-disabled")));
-            return;
         }else
         {
             event.setCancelled(false);
         }
-
-//        event.getPlayer().setDisplayName(instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".name-color"));
-
 
         String message = event.getMessage();
         List<String> list = instance.getConfig().getStringList("blocked-words");
@@ -174,43 +170,6 @@ public class Events extends SUtils implements Listener
         if(list.contains(message.toLowerCase().replaceAll("\\s", "").replaceAll("&[a-z0-9]", ""))) {
             event.setCancelled(true);
             p.sendMessage(color("&4You're not allowed to use that word."));
-        }
-
-        if(message.contains("-help"))
-        {
-            p.sendMessage(color("&8========== [&cChat &b&lFunctions&8] &8=========="));
-            p.sendMessage("");
-            p.sendMessage(color("&b#name &8&l- &7Displays player's name in shout."));
-            p.sendMessage(color("&b#location &8&l- &7Will display user location. "));
-            p.sendMessage(color("&eColor formatting in shout: ") + "&1, &2, &3, &4, &5, &6, &7, &8, &9 ETC.");
-            p.sendMessage(color("&b#world &8&l- &7Displays the players current world."));
-            p.sendMessage(color("&b#exp &8&l- Displays players Exp level."));
-            p.sendMessage(color("&2&nFor Permissions to each function please check the Authors site."));
-            p.sendMessage(color("&9How to use color codes: &3&nhttp://minecraftcolorcodes.com/"));
-            p.sendMessage(color("&8==================================="));
-        }
-
-        String location =  color("&7X:&a"+p.getLocation().getBlockX() +" &7Y&a:" +p.getLocation().getBlockY() + " &7Z&a:" + p.getLocation().getBlockZ() +"&r" );
-
-        if(SPermissions.SURVIVAL_CHAT_COLOR.checkPermission(p))
-        {
-            message = message.replace("&","§");
-        }
-
-        if(SPermissions.SURVIVAL_CHAT_WORLD.checkPermission(p))
-        {
-            message = message.replace("#world", p.getWorld().getName());
-        }
-
-        if(SPermissions.SURVIVAL_CHAT_EXP.checkPermission(p))
-        {
-            message = message.replace("#exp", ""+p.getExpToLevel());
-        }
-
-        if(SPermissions.SURVIVAL_CHAT_LOCATION.checkPermission(p))
-        {
-            message = message.replace("#location", location);
-            message = message.replace("#loc", location);
         }
 
 
@@ -233,23 +192,21 @@ public class Events extends SUtils implements Listener
         if(!instance.getConfig().getBoolean("Chat.custom-chat.Enabled")) return;
 
 
-        //TODO Set administrators color in tab list on join and chat on chat.
+        //TODO.md Set administrators color in tab list on join and chat on chat.
 
         String format = instance.getConfig().getString("Chat.custom-chat.Format");
 
         format = format.replace("{name}", p.getName());
-        format = format.replace("{msg}", message); //TODO
+        format = format.replace("{msg}", message); //TODO.md
         format = format.replace("{world}", p.getWorld().getName());
-        format = format.replace("{UUID}", p.getUniqueId().toString());
-        format = format.replace("{location}",location);
         format = format.replace("{RANK}",User.getRankPrefix(p));
         format = format.replace("{PREFIX}",User.getCustomPrefix(p));
 //        format = format.replace("%chatcolor%", instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".chat-color"));
 //                format = format.replaceAll("%IP%", "" + player.getAddress());
 
-        //TODO: Add vault to get prefix from PermissionsEX...
+        //TODO.md: Add vault to get prefix from PermissionsEX...
 
-        event.setFormat(format);//TODO Fix.
+        event.setFormat(format);//TODO.md Fix.
 
     }
 
@@ -300,7 +257,7 @@ public class Events extends SUtils implements Listener
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, org.bukkit.ChatColor.translateAlternateColorCodes('&', result));
                 Bukkit.getServer().getConsoleSender().sendMessage(color(alert));
                 for (Player staff : Bukkit.getServer().getOnlinePlayers()) {
-                    if (User.isPermissible(staff, Rank.MOD)) {
+                    if (User.isPermissible(staff, Rank.MOD) && !User.evaluateWhitelistNotifications(staff.getUniqueId())) {
                         if (p.isWhitelisted()) {
                             return;
                         }

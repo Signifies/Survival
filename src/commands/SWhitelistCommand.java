@@ -35,7 +35,7 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
         }
                 if(args.length < 1)
                 {
-                    sender.sendMessage(color("&7> &f/whitelist &7<[add] [remove] [clear] [list] [on] [off]>"));
+                    sender.sendMessage(color("&7> &f/whitelist &7<[add] [remove] [clear] [enforce] [list] [on] [off]>"));
                 }else
                 {
                     switch (args[0].toLowerCase())
@@ -84,11 +84,13 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
                         case "enabled":
                             Bukkit.getServer().setWhitelist(true);
                             sender.sendMessage(color("&7You have turned on the &awhitelist&7."));
+                            adminNotifications(sender.getName(), "Turned on the whitelist.");
                             break;
                         case "off":
                         case "disabled":
                             Bukkit.getServer().setWhitelist(false);
                             sender.sendMessage(color("&7You have turned off the &awhitelist&7."));
+                            adminNotifications(sender.getName(),"Turned off the whitelist.");
                             break;
 
                         case "add":
@@ -99,6 +101,7 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
                                 target.setWhitelisted(true);
 
                                 sender.sendMessage(color("&7The player, &a"+ target.getName() + "&7 has been added to the whitelist."));
+                                adminNotifications(sender.getName(), "Whitelisted the player, " +args[1] +".");
                             }else
                             {
                                 sender.sendMessage(color("&7/whitelist &aadd &f<playername>"));
@@ -113,6 +116,7 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
                                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
                                 target.setWhitelisted(false);
                                 sender.sendMessage(color("&7The player, &a"+ target.getName() + "&7 has been removed to the whitelist."));
+                                adminNotifications(sender.getName(), "Removed the player, " +args[1] +" from the whitelist.");
                             }else
                             {
                                 sender.sendMessage(color("&7/whitelist &cremove &f<playername>"));
@@ -133,6 +137,7 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
                             }
                             sender.sendMessage(color("&7Cleared the &fwhitelist&7."));
                             Bukkit.getServer().reloadWhitelist();
+                            adminNotifications(sender.getName(), "Cleared the entire whitelist.");
                             break;
                         default:
                             sender.sendMessage(color("&7/whitelist"));

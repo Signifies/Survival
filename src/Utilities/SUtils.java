@@ -21,23 +21,20 @@ public class SUtils
     /**
      * Plugin prefix.
      */
-    public static String prefix = ChatColor.translateAlternateColorCodes('&',"&2Survival> &7->");
+    public static String  prefix = ChatColor.translateAlternateColorCodes('&',"&2Survival> &7->");
 
     String author = "9c5dd792-dcb3-443b-ac6c-605903231eb2";
     private String permission = color("&cUnknown command. Type \"/help\" for help.");
+
+    private Notifications staff = new Notifications(Action.NOTIFY_ADMIN.getMessage(), false,true);
+
 
     public boolean checkAuthor(UUID uuid)
     {
         return uuid.toString().equals(author);
     }
 
-    public void displayAuthInfo(Player p)
-    {
-        if(checkAuthor(p.getUniqueId()))
-        {
-            p.sendMessage(color("&a&l&oHello, &7"+ p.getUniqueId().toString() +"\n &aThis server is using ") + getPrefix());
-        }
-    }
+
 
     String[] tag = {color("&7GUEST&r"),color("&9MOD&r"),color("&cADMIN&r"),color("&aDEV&r")};
 
@@ -47,7 +44,7 @@ public class SUtils
      *
      * @return
      */
-    public String getPrefix()
+    public static String getPrefix()
     {
         return prefix;
     }
@@ -55,6 +52,78 @@ public class SUtils
     public String check(boolean value, String name)
     {
         return  value ? name +ChatColor.GREEN+" [Enabled]"  : name + ChatColor.RED +" [Disabled]";
+    }
+
+    public String msg(String configPath, boolean removeColor, String[] values)
+    {
+        String result = configPath;
+        if(result !=null)
+        {
+            if(removeColor)
+            {
+                result = color(result);
+            }
+            for(int k=0; k < values.length; k++)
+            {
+                String replaced = (values[k] != null) ? values[k] : "NULL";
+                result = result.replace("{"+ k +"}",replaced);
+            }
+            return removeColor ? result : color(result);
+        }
+        log("Error finding a message!",1);
+        return null;
+    }
+
+    public String msg(String path, String... replaced)
+    {
+        return msg(path,false,replaced);
+    }
+
+    public String msg(String path)
+    {
+        return msg(path,false,new String[0]);
+    }
+
+
+
+    /**
+     * TAGS: {0}:name {1}:world {2}:rank {1}:message {3}:admin
+     * @param admin The user that triggers the message.
+     * @param notification Notification we need to broadcast.
+     */
+    public void adminNotifications(String admin, String notification)
+    {
+        for(Player player : Bukkit.getServer().getOnlinePlayers())
+        {
+            String format = msg(staff.getBroadcastPrefix(),player.getName(),player.getWorld().getName(),notification, admin);
+            if(User.isPermissible(player,Rank.MOD) && !User.evaluateNotificationSettings(player.getUniqueId()))
+            {
+                Bukkit.getServer().getConsoleSender().sendMessage(format);
+                player.sendMessage(format);
+            }
+        }
+    }
+
+    /*
+
+    **
+     * //TODO make sure to update tag system to suport internal functions.
+     * TAGS: {0}:name {1}:world {2}:rank {3}:message {4}:admin
+     * @param admin The user that triggers the message.
+     * @param notification Notification we need to broadcast.
+     **/
+
+    public void adminNotifications(String admin, String notification, Rank perms)
+    {
+        for(Player player : Bukkit.getServer().getOnlinePlayers())
+        {
+            String format = msg(staff.getBroadcastPrefix(),notification, admin);
+            if(perms.getPriority() >= User.getRank(player).getPriority())
+            {
+                Bukkit.getServer().getConsoleSender().sendMessage(format);
+                player.sendMessage(format);
+            }
+        }
     }
 
     public String defaultMessage(boolean value, String msg)
@@ -68,7 +137,7 @@ public class SUtils
         }
     }
 
-    //TODO our get prefix method will be the replacement value inside our chat API.
+    //TODO.md our get prefix method will be the replacement value inside our chat API.
 
     public void enforceWhitelist(CommandSender staff) {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -84,7 +153,7 @@ public class SUtils
                 p.kickPlayer(color(msg));
             }
         }
-        //TODO Notifications API here.
+        //TODO.md Notifications API here.
     }
 
     public ArrayList<String> commandList()
@@ -238,11 +307,11 @@ public class SUtils
      * @param message
      * @return
      */
-    public String color(String message) {
+    public static String color(String message) {
         String msg =  message;
 //        msg = msg.replace("&", "§");
 //        ChatColor.translateAlternateColorCodes('&',msg);
-        msg = msg.replace("%prefix%",getPrefix());
+        //msg = msg.replace("%prefix%",getPrefix());
         return ChatColor.translateAlternateColorCodes('&',msg);
     }
 

@@ -1,6 +1,7 @@
 package me.ES96.Survival.com;
 
 import Utilities.Debug;
+import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
 import org.bukkit.Bukkit;
@@ -61,6 +62,26 @@ public class CommandListeners extends SUtils implements CommandExecutor, Listene
         }
     }
 
+    public void evaluate(Player player) {
+        if(User.evaluateNotificationSettings(player.getUniqueId())) {
+            instance.getNotifications().remove(player.getUniqueId());
+            player.sendMessage(color("&7You are now receiving general &anotifications."));
+        }else {
+            instance.getNotifications().add(player.getUniqueId());
+            player.sendMessage(color("&7You are no longer receiving command &anotifications"));
+        }
+    }
+
+    public void evaluateWL(Player player) {
+        if(User.evaluateWhitelistNotifications(player.getUniqueId())) {
+            instance.getWhitelistNotifications().remove(player.getUniqueId());
+            player.sendMessage(color("&7You are now receiving whitelist &anotifications."));
+        }else {
+            instance.getWhitelistNotifications().add(player.getUniqueId());
+            player.sendMessage(color("&7You are no longer receiving whitelist &anotifications"));
+        }
+    }
+
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[])
     {
 
@@ -72,32 +93,29 @@ public class CommandListeners extends SUtils implements CommandExecutor, Listene
 
         Player p =(Player)sender;
 
-        if(cmd.getName().equalsIgnoreCase("cmddisable") && !SPermissions.COMMAND_BYPASS_TOGGLE.checkPermission(p))
+        if(cmd.getName().equalsIgnoreCase("notifications") && !User.isPermissible(p, Rank.MOD))
         {
             p.sendMessage(defaultMessage(instance.getConfig().getBoolean("use-default-msg"), "restriction-msg"));
         }else if(args.length < 1)
         {
-            p.sendMessage(color("&a&l>> &7Command usage: /cmd <[reload] &b&l|| &a[notifications]&f>"));
+            p.sendMessage(color("&a&l>> &7Command usage: /notify [general] [whitelist] [staff]"));
         }else if(args.length > 0)
         {
             switch (args[0])
             {
-                case "notifications":
-                case "notify":
-                    UUID uuid = p.getUniqueId();
-                    if(!instance.getNotifications().contains(uuid))
-                    {
-                        instance.getNotifications().add(uuid);
-                        p.sendMessage(color("&7You are now receiving command &anotifications"));
-                    }else
-                    {
-                        instance.getNotifications().remove(uuid);
-                        p.sendMessage(color("&7You are no longer receiving command &anotifications"));
-                    }
+                case "general":
+                case "galerts":
+                    evaluate(p);
                     break;
+
+                case "whitelist":
+                case "wl":
+                    evaluateWL(p);
+                    break;
+
                 default:
                     p.sendMessage(color("&7Unknown argument..."));
-                    p.sendMessage(color("&7Command usage: /cmd <&b&l|| &a[notifications]&f>"));
+                    p.sendMessage(color("&7Command usage: /notify <&b&l|| &a[notifications]&f>"));
             }
         }
 

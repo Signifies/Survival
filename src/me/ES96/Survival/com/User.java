@@ -54,6 +54,18 @@ public class User extends SUtils
         }
     }
 
+    public static boolean evaluateNotificationSettings(UUID uuid) {
+        return instance.getNotifications().contains(uuid);
+    }
+
+    public static boolean evaluateStaffNotificationSettings(UUID uuid) {
+        return instance.getStaffNotifications().contains(uuid);
+    }
+
+    public static boolean evaluateWhitelistNotifications(UUID uuid) {
+        return instance.getWhitelistNotifications().contains(uuid);
+    }
+
     public static void setDesiredRank(Player p, Rank rank) {
         Debug.log(Debug.pluginLog() + "Adding the user to file. Data: " + p.getUniqueId() + " with the rank: " + rank.toString());
         instance.getUserData().getUUIDConfig().set("Users." + p.getUniqueId() + ".RANK", rank.toString());

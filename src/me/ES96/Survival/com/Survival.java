@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -16,7 +17,9 @@ import java.util.UUID;
 public class Survival extends JavaPlugin {
 
     private static PermissionsConfig perms;
-    private ArrayList<UUID> notify = new ArrayList<>();
+    private ArrayList<UUID> notify = new ArrayList<>(); //general notifications.
+    private ArrayList<UUID> whitelistNotifications = new ArrayList<>();
+    private ArrayList<UUID> staffNotifications = new ArrayList<>();
     public static ArrayList<String> staff = new ArrayList<>();
     private User user = new User(this);
     public static boolean DEBUG = false;
@@ -53,7 +56,7 @@ public class Survival extends JavaPlugin {
 
 
     void commands() {
-        registerCmd("cmddisable", new CommandListeners(this));
+        registerCmd("notifications", new CommandListeners(this));
         registerCmd("list", new SListCommand(this));
         registerCmd("chat", new SChatCommand(this));
         //registerCmd("message", new SMessageCommand(this));
@@ -76,6 +79,14 @@ public class Survival extends JavaPlugin {
 
     public ArrayList<UUID> getNotifications() {
         return notify;
+    }
+
+    public ArrayList<UUID> getWhitelistNotifications() {
+        return whitelistNotifications;
+    }
+
+    public ArrayList<UUID> getStaffNotifications() {
+        return staffNotifications;
     }
 
     public boolean permissionDefault() {

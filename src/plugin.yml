@@ -1,6 +1,6 @@
 name: Survival
 main: me.ES96.Survival.com.Survival
-version: 1.5.3
+version: 1.6.1
 description: Survival Server plugin created for OW team.
 author: Signifies
 website: https://github.com/Signifies/Survival
@@ -8,13 +8,13 @@ website: https://github.com/Signifies/Survival
 commands:
   chat:
     description: Chat management command.
-    aliases: [talk,c,shutup]
+    aliases: [talk,c,shutup, ch]
   kick:
     description: Command that kicks a player from the server.
     aliases: [bye, goodbye, fuckoff]
   list:
     description: Command that lists the players/staff members on the server.
-    aliases: [who, slist, users]
+    aliases: [slist, users]
   tp:
     description: Command to teleport to player.
     aliases: [stp, teleport]
@@ -24,9 +24,9 @@ commands:
   whitelist:
     description: Whitelist command to manage server whitelist.
     aliases: [wl]
-  cmddisable:
+  notifications:
     description: Administration command for CMD-Disable
-    aliases: [cmd, cdisable, cd]
+    aliases: [notify, alerts]
   edit:
     description:
     aliases: [ed,modify,set]
@@ -35,7 +35,7 @@ commands:
     aliases: [srank]
   broadcast:
     description: Broadcast command.
-    aliases: [bc,alert,yell]
+    aliases: [a, bc, alert, yell]
 permissions:
 
   Survival.*:
