@@ -1,5 +1,6 @@
 package commands;
 
+import Utilities.Action;
 import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
@@ -33,14 +34,14 @@ public class SKickCommand extends SUtils implements CommandExecutor
             Player p = (Player)sender;
 
                 if(!User.isPermissible(p,Rank.MOD)) {
-                    sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
+                    sender.sendMessage(defaultMessage(instance.permissionDefault(),Rank.ADMIN, instance.getMessage(),p));
                     return false;
                     }
                 }
 
                 if(args.length < 1)
                 {
-                    sender.sendMessage(color("&7You need to add a player..."));
+                    sender.sendMessage(color(Action.KICK.getMessage()+"&7/kick <player> <message>"));
                 }else if(args.length > 0)
                 {
                     Player target = Bukkit.getPlayer(args[0]);
@@ -68,8 +69,8 @@ public class SKickCommand extends SUtils implements CommandExecutor
                             Bukkit.broadcastMessage(color(format));
                         }else
                         {
-                            Bukkit.broadcastMessage(color("&a" + target.getName() +"&7 has been kicked."));
-                            target.kickPlayer(color("&7You have been kicked from the &cserver."));
+                            Bukkit.broadcastMessage(color(Action.KICK.getMessage()+"&a" + target.getName() +"&7 has been kicked."));
+                            target.kickPlayer(color(Action.KICK.getMessage()+"&7You have been kicked from the &cserver."));
                         }
                     }
                 }

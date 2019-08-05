@@ -1,5 +1,6 @@
 package commands;
 
+import Utilities.Action;
 import Utilities.Rank;
 import Utilities.SUtils;
 import me.ES96.Survival.com.Survival;
@@ -25,7 +26,7 @@ public class RankCommand extends SUtils implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[]) {
         if (!(sender instanceof Player)) {
             if (args.length < 1) {
-                sender.sendMessage(ChatColor.RED + "Usage -> /rank <player> <rank>");
+                sender.sendMessage(Action.USAGE.getMessage()+""+ChatColor.RED + "/rank <player> <rank>");
             } else {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null) {
@@ -38,11 +39,11 @@ public class RankCommand extends SUtils implements CommandExecutor {
         }else {
             Player p = (Player) sender;
             if (!User.isPermissible(p, Rank.ADMIN)) {
-                sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
+                sender.sendMessage(defaultMessage(instance.permissionDefault(),Rank.ADMIN, instance.getMessage(),p));
                 return true;
             }
             if (args.length < 1) {
-                sender.sendMessage(ChatColor.RED + "Usage -> /rank <player> <rank>");
+                sender.sendMessage(Action.USAGE.getMessage()+ChatColor.RED + "Usage -> /rank <player> <rank>");
             } else {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null) {

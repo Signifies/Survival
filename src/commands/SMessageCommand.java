@@ -41,7 +41,7 @@ messaging:
         {
             if(!SPermissions.SURVIVAL_MESSAGE_COMMAND.checkPermission(sender))
             {
-                sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
+                //sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
             }else if(args.length < 1)
             {
                 sender.sendMessage(color("&7/message <playername> <message>"));

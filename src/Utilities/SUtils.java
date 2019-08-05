@@ -98,9 +98,10 @@ public class SUtils
             String format = msg(staff.getBroadcastPrefix(),player.getName(),player.getWorld().getName(),notification, admin);
             if(User.isPermissible(player,Rank.MOD) && !User.evaluateNotificationSettings(player.getUniqueId()))
             {
-                Bukkit.getServer().getConsoleSender().sendMessage(format);
+
                 player.sendMessage(format);
             }
+            Bukkit.getServer().getConsoleSender().sendMessage(format);
         }
     }
 
@@ -126,9 +127,14 @@ public class SUtils
         }
     }
 
-    public String defaultMessage(boolean value, String msg)
+    public String defaultMessage(boolean value,Rank required, String msg, Player player)
     {
-        return value ? color(permission) : color(msg);
+        String format = color(msg);
+        format = format.replace("{rank}",User.getRank(player).toString());
+        format = format.replace("{rank_req}",required.toString());
+        format = format.replace("{pref}",Action.PERMISSION.getMessage());
+
+        return value ? color(permission) : format;
     }
 
     public void log(String msg, int priority) {
@@ -271,14 +277,14 @@ public class SUtils
         {
             p.sendMessage("");
         }
-        p.sendMessage(color("&7Your chat has been &7&nCleared&c, by an Admin, &a&n" + p.getName()));
+        p.sendMessage(color(Action.CHAT.getMessage()+"&7Your chat has been &7&nCleared&c, by an Admin, &a&n" + p.getName()));
     }
 
     public void selfClear(CommandSender sender) {
         for(int i=0; i <100; i++) {
             sender.sendMessage("");
         }
-        sender.sendMessage( ChatColor.GRAY + "You have cleared your own chat, "+ ChatColor.GREEN +sender.getName());
+        sender.sendMessage(Action.CHAT.getMessage()+""+ ChatColor.GRAY + "You have cleared your own chat, "+ ChatColor.GREEN +sender.getName());
     }
 
     public void clear() {
@@ -289,7 +295,7 @@ public class SUtils
                 p.sendMessage("");
             }
         }
-        Bukkit.broadcastMessage(color("&7The chat has been &acleared&7."));
+        Bukkit.broadcastMessage(color(Action.CHAT.getMessage()+"&7The chat has been &acleared&7."));
     }
 
 
@@ -311,7 +317,7 @@ public class SUtils
         String msg =  message;
 //        msg = msg.replace("&", "§");
 //        ChatColor.translateAlternateColorCodes('&',msg);
-        //msg = msg.replace("%prefix%",getPrefix());
+        msg = msg.replace("%prefix%",getPrefix());
         return ChatColor.translateAlternateColorCodes('&',msg);
     }
 

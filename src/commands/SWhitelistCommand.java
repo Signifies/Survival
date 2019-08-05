@@ -1,5 +1,6 @@
 package commands;
 
+import Utilities.Action;
 import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
@@ -29,13 +30,13 @@ public class SWhitelistCommand extends SUtils implements CommandExecutor
         if(sender instanceof Player) {
             Player p =(Player)sender;
             if(!User.isPermissible(p, Rank.ADMIN)){
-                sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
+                sender.sendMessage(defaultMessage(instance.permissionDefault(),Rank.ADMIN, instance.getMessage(),p));
                 return false;
             }
         }
                 if(args.length < 1)
                 {
-                    sender.sendMessage(color("&7> &f/whitelist &7<[add] [remove] [clear] [enforce] [list] [on] [off]>"));
+                    sender.sendMessage(color(Action.USAGE.getMessage()+"&f/whitelist &7<[add] [remove] [clear] [enforce] [list] [on] [off]>"));
                 }else
                 {
                     switch (args[0].toLowerCase())

@@ -1,5 +1,6 @@
 package commands;
 
+import Utilities.Action;
 import Utilities.Rank;
 import Utilities.SUtils;
 import me.ES96.Survival.com.Survival;
@@ -25,7 +26,7 @@ public class BroadcastCommand extends SUtils implements CommandExecutor {
             if(sender instanceof Player) {
                 Player p = (Player)sender;
                 if(!User.isPermissible(p, Rank.ADMIN)) {
-                    sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
+                    sender.sendMessage(defaultMessage(instance.permissionDefault(),Rank.ADMIN, instance.getMessage(),p));
                     return true
                             ;
                 }

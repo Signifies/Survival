@@ -2,6 +2,7 @@ package Utilities;
 
 public enum Action
 {
+
     SPEAK(SUtils.color("")),
     PLACE(SUtils.color("")),
     DESTROY(SUtils.color("")),
@@ -9,7 +10,11 @@ public enum Action
     PICKUP(SUtils.color("")),
     DROP(SUtils.color(""))
     ,BAN(SUtils.color("&4[Ban]&r"))
-    ,KICK(SUtils.color("&e[Kick]&r")),
+    ,KICK(SUtils.color("&fKick&9&l> &r")),
+    CHAT(SUtils.color("&fChat&9&l> &r")),
+    PERMISSION(SUtils.color("&fPermission&9&l> &r")),
+    USAGE(SUtils.color("&fUsage&9&l> &r")),
+    WHITELIST(SUtils.color("&fWhitelist&9&l> ")),
     MUTE(SUtils.color("&9[Mute]&r")),
     REPORT(SUtils.color("&6[Report]&r")),
     WARN(SUtils.color("&c[Warn]&r")),

@@ -1,11 +1,10 @@
 package me.ES96.Survival.com;
 
-import Utilities.Debug;
-import Utilities.Rank;
-import Utilities.SPermissions;
-import Utilities.SUtils;
+import Utilities.*;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +13,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerListPingEvent;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,13 +24,63 @@ import java.util.UUID;
 public class Events extends SUtils implements Listener
 {
     Survival instance;
+    private int minimumSleepers;
+    private Server server;
+    private ArrayList<UUID> sleepers;
+    private DecimalFormat decFormat;
 
     public Events(Survival main)
     {
+        server = main.getServer();
         instance = main;
+        sleepers = new ArrayList<>();
+        decFormat = new DecimalFormat("##.00");
     }
 
 
+
+    @EventHandler
+    public void onBed(PlayerBedEnterEvent event) {
+        log("Player bed method called.",1);
+        Player p = event.getPlayer();
+        if(p.getWorld().getUID() != server.getWorlds().get(0).getUID()) return;
+
+        boolean isDay = false;
+        if(!sleepers.contains(p.getUniqueId())) {
+            sleepers.add(p.getUniqueId());
+            int totalPlayers = server.getOnlinePlayers().size();
+            double percentage = sleepers.size() / totalPlayers;
+            if(percentage >= 0.5){
+                isDay = true;
+            }
+            server.broadcastMessage(new StringBuilder().append(ChatColor.AQUA).append(sleepers.size()).append("/").append(totalPlayers).append(" players (").append(decFormat.format(100.0 * percentage)).append("%)").append(ChatColor.LIGHT_PURPLE).append(" are sleeping... 50% or more needed to change to morning.").toString());
+            if(isDay) {
+                server.getWorlds().get(0).setTime(1000L);
+                event.getPlayer().getWorld().setStorm(false);
+                event.getPlayer().getWorld().setThundering(false);
+            }
+        }
+    }
+
+    /*
+    else if(p.getWorld().getPlayers().size() >= 2 && (p.getWorld().getTime() > 12545L || p.getWorld().isThundering())){
+            if(sleepers.size() >= minimumSleepers && p.isSleeping()) {
+                log("Called from else if statement",1);
+                event.getPlayer().getWorld().setTime(1000L);
+                event.getPlayer().getWorld().setStorm(false);
+                event.getPlayer().getWorld().setThundering(false);
+            }
+        }
+     */
+
+    @EventHandler
+    public void onBedLeave(PlayerBedLeaveEvent event) {
+
+        log("Player left bed method called.",0);
+        Player p = event.getPlayer();
+        sleepers.remove(p.getUniqueId());
+
+    }
 
     @EventHandler
     public void place(BlockPlaceEvent event)
@@ -84,25 +135,7 @@ public class Events extends SUtils implements Listener
     {
         Player p = event.getPlayer();
 
-//    TODO.md later    instance.getUser().getRank(p);
-
-       // instance.getUser().setRank(p, Rank.GUEST); //We can also get the chat prefix once configured...
         User.setRank(p,Rank.GUEST);
-
-        /*
-
-        if (!SPermissions.SURVIVAL_ACCESS.checkPermission(p))
-        {
-            p.setPlayerListName("&7Guest> &f"+p.getName());
-        }else if(p.hasPermission("Survival.member"))
-        {
-            p.setPlayerListName("&a&l"+p.getName());
-        }else if(p.hasPermission("Survival.admin"))
-        {
-
-        }
-
-        */
 
 
         event.setJoinMessage(null);
@@ -135,7 +168,6 @@ public class Events extends SUtils implements Listener
         format = format.replace("{uuid}",p.getUniqueId().toString());
         Bukkit.getServer().broadcastMessage(color(format));
 
-//        data.update(p);
         Debug.log(Debug.pluginLog() + "&6Updating player data for " + p.getName());
         log(color("%prefix% &4&lUpdating player data for &6&l" + p.getName()));
 
@@ -152,7 +184,6 @@ public class Events extends SUtils implements Listener
 
 
         boolean chat = instance.getConfig().getBoolean("Chat.Enabled");
-        //boolean perm = SPermissions.SURVIVAL_BYPASS_CHAT.checkPermission(p);
 
 
         if(!(chat) && !User.isPermissible(p, Rank.MOD))
@@ -201,10 +232,7 @@ public class Events extends SUtils implements Listener
         format = format.replace("{world}", p.getWorld().getName());
         format = format.replace("{RANK}",User.getRankPrefix(p));
         format = format.replace("{PREFIX}",User.getCustomPrefix(p));
-//        format = format.replace("%chatcolor%", instance.getPerms().getPermissions().getString("User-data." +p.getUniqueId() + ".chat-color"));
-//                format = format.replaceAll("%IP%", "" + player.getAddress());
 
-        //TODO.md: Add vault to get prefix from PermissionsEX...
 
         event.setFormat(format);//TODO.md Fix.
 
@@ -223,7 +251,6 @@ public class Events extends SUtils implements Listener
 //        pingmessage = pingmessage.replace("%users%",getUsers());
 //        pingmessage = pingmessage.replace("%time%",getStamp().toString());
         event.setMotd(pingmessage);
-        //uitl.logToConsole("TEST: " +event.getAddress());
     }
 
     public boolean checkWhitelist()
@@ -239,10 +266,13 @@ public class Events extends SUtils implements Listener
         String config = instance.getConfig().getString("Whitelist.kick-message");
         config = config.replace("{name}", p.getName());
         config = config.replace("{uuid}", "" + uuid);
+        config = config.replace("{pref}", Action.WHITELIST.getMessage());
+
         config = config.replace("\n", "\n");
         String alert = instance.getConfig().getString("Whitelist.whitelist-alert");
         alert = alert.replace("{name}", p.getName());
         alert = alert.replace("{uuid}", "" + uuid);
+        alert = alert.replace("{pref}", Action.WHITELIST.getMessage());
 
         String result = instance.getConfig().getBoolean("Maintenance.enabled") ? instance.getConfig().getString("Maintenance.msg") : config;
 

@@ -25,6 +25,7 @@ public class Survival extends JavaPlugin {
     public static boolean DEBUG = false;
     public PluginDescriptionFile pdfFile = this.getDescription();
     private UUIDConfig uuidConfig = new UUIDConfig(this);
+    private ArrayList<UUID> restricted = new ArrayList<>();
     private RankManagement rankManagement = new RankManagement(this);
     public void onEnable() {
         perms = new PermissionsConfig(this);
@@ -87,6 +88,10 @@ public class Survival extends JavaPlugin {
 
     public ArrayList<UUID> getStaffNotifications() {
         return staffNotifications;
+    }
+
+    public ArrayList<UUID> getRestricted() {
+        return restricted;
     }
 
     public boolean permissionDefault() {

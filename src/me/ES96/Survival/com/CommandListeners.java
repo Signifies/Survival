@@ -1,9 +1,6 @@
 package me.ES96.Survival.com;
 
-import Utilities.Debug;
-import Utilities.Rank;
-import Utilities.SPermissions;
-import Utilities.SUtils;
+import Utilities.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -95,10 +92,10 @@ public class CommandListeners extends SUtils implements CommandExecutor, Listene
 
         if(cmd.getName().equalsIgnoreCase("notifications") && !User.isPermissible(p, Rank.MOD))
         {
-            p.sendMessage(defaultMessage(instance.getConfig().getBoolean("use-default-msg"), "restriction-msg"));
+            sender.sendMessage(defaultMessage(instance.permissionDefault(),Rank.MOD, instance.getMessage(),p));
         }else if(args.length < 1)
         {
-            p.sendMessage(color("&a&l>> &7Command usage: /notify [general] [whitelist] [staff]"));
+            p.sendMessage(color(Action.USAGE.getMessage()+"&7/notify [general] [whitelist] [staff]"));
         }else if(args.length > 0)
         {
             switch (args[0])
@@ -115,7 +112,7 @@ public class CommandListeners extends SUtils implements CommandExecutor, Listene
 
                 default:
                     p.sendMessage(color("&7Unknown argument..."));
-                    p.sendMessage(color("&7Command usage: /notify <&b&l|| &a[notifications]&f>"));
+                    p.sendMessage(color(Action.USAGE.getMessage()+"&7/notify <&b&l|| &a[notifications]&f>"));
             }
         }
 

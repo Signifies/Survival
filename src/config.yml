@@ -7,8 +7,8 @@ Permissions:
   use-default: true
 # Do we use default permission message or custom ?
 perm-message:
-  default: true
-  format: "&a&l>> &7Sorry, no permissions for this feature."
+  default: false
+  format: "{pref}&7Sorry, but only &f{rank_req} &7and above are allowed to execute this feature."
 #
 # Server Message of The Day. For list ping and in-game
 MOTD:
@@ -33,8 +33,8 @@ Broadcast:
 Whitelist:
   use-permission: false
   permission: "utils.specific.permission"
-  kick-message: "&9Whitelist&8> &cYou are not whitelisted, &c&n{name}.\n&cContact Miskey on Discord."
-  whitelist-alert: "&6Alert&7&l> &6&l{name}, &7is not Whitelisted!"
+  kick-message: "{pref}&cYou are not whitelisted, &c&n{name}.\n&cContact Miskey on Discord."
+  whitelist-alert: "{pref}&6&l{name}, &7is not Whitelisted!"
   enforce-kick: "&4Server whitelist was enforced by an Admin!"
   enforce: "&4{admin}> &7whitelist enforce success!"
 #
@@ -47,20 +47,13 @@ Chat:
   custom-chat:
     Enabled: false
     Format: "&7{name}> &r%msg%"
-  functions:
-    world:
-      use-text: true
-    location:
-      use-text: true
-    exp:
-      use-text: true
 
 #
 #
 list:
   messages: "&cError: No staff members online. &b&o.-."
   format:
-  - "&a-------- &a&l<> &cBajr&7Craft &a&l <> &a--------"
+  - "&7-------- &a&l<> &cBajr&7Craft &a&l <> &7--------"
   - "&7Online:&a %online_players%/%max_players%"
   - "&cStaff online: &a%staff%"
   - "&bCurrent Time: &f%time%"

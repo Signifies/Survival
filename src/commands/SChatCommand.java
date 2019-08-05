@@ -1,5 +1,6 @@
 package commands;
 
+import Utilities.Action;
 import Utilities.Rank;
 import Utilities.SPermissions;
 import Utilities.SUtils;
@@ -31,13 +32,13 @@ public class SChatCommand extends SUtils implements CommandExecutor
         if(sender instanceof Player) {
             Player p = (Player)sender;
             if(!User.isPermissible(p, Rank.MOD)) {
-                sender.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
+                sender.sendMessage(defaultMessage(instance.permissionDefault(),Rank.MOD, instance.getMessage(),p));
                 return false;
             }
         }
 
          if(args.length < 1) {
-            sender.sendMessage(color("&7/chat <silence | unmute> || <clear> || <clearself> || <clearothers>"));
+            sender.sendMessage(color(Action.USAGE.getMessage()+"&7/chat <silence | unmute> || <clear> || <clearself> || <clearothers>"));
         }else {
             if(args.length > 0)
             {
@@ -54,7 +55,7 @@ public class SChatCommand extends SUtils implements CommandExecutor
                         break;
                     case "help":
                     case "?":
-                        sender.sendMessage(color("&7/chat <silence | unmute> || <clear> || <clearself> || <clearothers>"));
+                        sender.sendMessage(color(Action.USAGE.getMessage()+"&7/chat <silence | unmute> || <clear> || <clearself> || <clearothers>"));
                         break;
                     case "clearuser":
                     case "cu":
@@ -81,12 +82,12 @@ public class SChatCommand extends SUtils implements CommandExecutor
                         //Change default methods to use global notification system
 
                             if(!instance.getConfig().getBoolean("Chat.Enabled")) {
-                                sender.sendMessage(color("&7The chat is already &fdisabled&7."));
+                                sender.sendMessage(color(Action.CHAT.getMessage()+"&7The chat is already &fdisabled&7."));
                             }else{
                                 instance.getConfig().set("Chat.Enabled", false);
                                 instance.saveConfig();
                                 sender.sendMessage(color(instance.getConfig().getString("Chat.chat-disabled")));
-                                Bukkit.getServer().broadcastMessage(color("&7The chat has been &fdisabled&7."));
+                                Bukkit.getServer().broadcastMessage(color(Action.CHAT.getMessage()+"&7The chat has been &fdisabled&7."));
                             }
 
                         break;
@@ -94,19 +95,19 @@ public class SChatCommand extends SUtils implements CommandExecutor
                     case "unmute":
 
                             if(instance.getConfig().getBoolean("Chat.Enabled")) {
-                                sender.sendMessage(color("&7The chat is already &fEnabled&7."));
+                                sender.sendMessage(color(Action.CHAT.getMessage()+"&7The chat is already &fEnabled&7."));
                             }else{
                                 instance.getConfig().set("Chat.Enabled", true);
                                 instance.saveConfig();
-                                sender.sendMessage(color("&7You have &fenabled &7global chat."));
-                                Bukkit.getServer().broadcastMessage(color("&7The chat has been &fenabled&7."));
+                                sender.sendMessage(color(Action.CHAT.getMessage()+"&7You have &fenabled &7global chat."));
+                                Bukkit.getServer().broadcastMessage(color(Action.CHAT.getMessage()+"&7The chat has been &fenabled&7."));
                             }
 
                         break;
 
                     default:
                         sender.sendMessage(color("&7Unknown argument, &a" + args[0] + "&7!"));
-                        sender.sendMessage(color("&7/chat <silence | unmute> || <clear> || <clearself> || <clearothers>"));
+                        sender.sendMessage(color(Action.USAGE.getMessage()+"&7/chat <silence | unmute> || <clear> || <clearself> || <clearothers>"));
                 }
             }
         }

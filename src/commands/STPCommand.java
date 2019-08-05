@@ -1,5 +1,6 @@
 package commands;
 
+import Utilities.Action;
 import Utilities.SPermissions;
 import Utilities.SUtils;
 import me.ES96.Survival.com.Survival;
@@ -36,7 +37,7 @@ public class STPCommand extends SUtils implements CommandExecutor
             {
                 if(!SPermissions.SURVIVAL_COMMAND_TP.checkPermission(p))
                 {
-                    p.sendMessage(defaultMessage(instance.permissionDefault(), instance.getMessage()));
+                    p.sendMessage(color(Action.PERMISSION.getMessage() +"You don't have a high enough rank to execute this command."));
                 }else
                 {
                     if(args.length ==0)
