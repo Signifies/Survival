@@ -4,8 +4,6 @@ import me.ES96.Survival.com.Survival;
 import org.bukkit.ChatColor;
 public enum Rank
 {
-    //Possible idea, use for loop to instatiate multiple enums from a string list???
-    //List of parameters....
     //TODO.md: PREFIX, Permissions (StringList & can this work via config??), Priority for Inheritance...
 
     /**
@@ -40,9 +38,6 @@ public enum Rank
     {
         return prefix;
     }
-    //TODO.md??? Do we want to access User user? instead? We'll try both methods.
-    //Add player and we can make this logic right here??
-
 }
  
 
